@@ -32,7 +32,7 @@ Now : the todo list for this part of RunRunRun (Projet "Développement de Logici
 <ul>
 <li>To test the app in FirefoxOS simulator or on FirefoxOS device</li>
 <li>To ameliore the first launch of the app</li>
-<li>To configure which profile to use for the current course</li>
+<li>To configure which profile toe use for the current course</li>
 <li>To test optimization of the geolocation algorithm</li>
 <li>To add a marker/notification showing if GPS is ready</li>
 <li>To translate in English (Internationalization)</li>
