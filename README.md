@@ -39,5 +39,5 @@ Now : the todo list for this part of RunRunRun (Projet "Développement de Logici
 <li>To add filters (use tags, profiles, sports) on the page displaying list of courses</li>
 <li>To do the app working with OpenStreetMap, Nokia Map, Bing Maps</li>
 <li>To add the possibility to choice the Maps API (Google maps, OpenStreetMap)</li>
-<li>T delete course</li>
+<li>To delete course</li>
 </ul>
