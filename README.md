@@ -40,4 +40,5 @@ Now : the todo list for this part of RunRunRun (Projet "Développement de Logici
 <li>To do the app working with OpenStreetMap, Nokia Map, Bing Maps</li>
 <li>To add the possibility to choice the Maps API (Google maps, OpenStreetMap)</li>
 <li>To delete course</li>
+<li>Go back home function</li>
 </ul>
