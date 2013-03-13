@@ -1,0 +1,98 @@
+<html>
+<head>
+
+<script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?sensor=false&libraries=geometry"></script>
+<script>
+
+
+
+function calcul(lat1,lng1,lat2,lng2) {
+        var dLon = (lng2-lng1);
+        var y = Math.sin(dLon) * Math.cos(lat2);
+        var x = Math.cos(lat1)*Math.sin(lat2) - Math.sin(lat1)*Math.cos(lat2)*Math.cos(dLon);
+        var brng = toDeg(Math.atan2(y, x));
+        return 360 - ((brng + 360) % 360);
+    }
+
+function deg2rad(value){
+	
+	
+	return value*(180/Math.PI);
+}
+ function toRad(deg) {
+         return deg * Math.PI / 180;
+    }
+
+function toDeg(rad) {
+        return rad * 180 / Math.PI;
+    }
+
+
+
+
+function get_distance_m(lat1, lon1, lat2, lon2) {
+  var earth_radius = 6378137;   // Terre = sphère de 6378km de rayon
+  var rlo1 = deg2rad(lon1);
+  var rla1 = deg2rad(lat1);
+  var rlo2 = deg2rad(lon2);
+  var rla2 = deg2rad(lat2);
+  var dlo = (rlo2 - rlo1) / 2;
+  var dla = (rla2 - rla1) / 2;
+  var a = (Math.sin($dla) * Math.sin(dla)) + Math.cos(rla1) * Math.cos(rla2) * (sin(dlo) * sin(dlo
+));
+  var d = 2 * Math.atan2(sqrt(a), Math.sqrt(1 - a));
+  return (earth_radius * $d);
+}
+
+
+
+window.addEventListener("DOMContentLoaded", function(e){ 
+
+
+var lat1=47.768868;
+var lon1=2.351074;
+var lat2=48.857487;
+var lon2=3.427734;
+
+
+var depart   = new google.maps.LatLng(lat1, lon1);
+var arrivee  = new google.maps.LatLng(lat2, lon2);
+var angle    = google.maps.geometry.spherical.computeHeading( depart, arrivee);
+
+
+
+/*
+if(Math.sin(lon2-lon1)<0){
+	
+	var tc1=Math.acos((Math.sin(lat2)-Math.sin(lat1)*Math.cos(d))/(Math.sin(d)*Math.cos(lat1))) 
+}else{
+	var tc1=2*Math.PI-Math.acos((Math.sin(lat2)-Math.sin(lat1)*Math.cos(d))/(Math.sin(d)*Math.cos(lat1))) ;
+
+	
+}*/
+
+//console.log(tc1);
+
+
+var angle2= Math.atan2(Math.sin(lon2-lon1)*Math.cos(lat2), Math.cos(lat1)*Math.sin(lat2) - Math.sin(lat1)*Math.cos(lat2)*Math.cos(lon2-lon1));
+
+var dx = lat2 - lat1;
+var dy = lon2 - lat2;
+
+document.getElementById("deg").innerHTML=angle2*(360/(2*Math.PI));
+console.log(angle);
+document.getElementById("deg").innerHTML=calcul(lat1, lon1, lat2, lon2);
+
+});
+</script>
+
+</head>
+
+
+<body>
+<div id="deg">
+</div>
+
+</body>
+
+</html>

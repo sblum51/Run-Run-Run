@@ -3,21 +3,30 @@
 <head>
 <script>
 	
-	
+	function dom_ready(){
+		
+				
+	}
 	
 	
   var rotate = function (deg) { 
    	 
-   	 document.getElementById("heading").innerHTML=deg;
+   	 //document.getElementById("heading").innerHTML=deg;
+   	console.log(deg);
    	 
-   	 
-   	  var svgForm = document.getElementById("fleche");
-   	 svgForm.style.MozTransform="rotate(0deg)";
-   	  svgForm.style.MozTransform="rotate(' "+ deg +" 'deg";
+   	  //var svgForm = document.getElementById("fleche");
+   	  
+   	// document.getElementById("fleche").style['-moz-transform']='rotate(14deg)';
+   	 //document.getElementById("fleche").style.MozTransform="rotate(' "+ deg +" 'deg)";
    	// var svgTag = document.getElementById("arrow");
    	// var svgDoc = svgTag.getSVGDocument();
    	 
-   //	 svgDoc.setAttribute("-moz-transform", "rotate(0deg)");
+   	 
+   	  document.getElementById("group_arrow").setAttribute('transform','rotate('+deg+', 300, 130)');
+   	 
+   	 
+   	 
+//svgDoc.setAttribute("-moz-transform", "rotate(180,50,500)");
    	//svgDoc.setAttribute("-moz-transform", "rotate(' "+ deg +" 'deg");
    // var svgDoc = null;
     
@@ -31,21 +40,33 @@
       
     };
 	
- if (window.DeviceOrientationEvent) {
+ 
+
+window.addEventListener("DOMContentLoaded", function(e){ 
+
+
+
+if (window.DeviceOrientationEvent) {
+ 
      window.addEventListener("deviceorientation", function (e) {
       rotate(360 - e.alpha);
+      console.log("ok");
     }, false);
   }
-  
-  rotate(210);
+
+
+rotate(10);});
+
 
 	
 </script>
 </head>
 <body>
-<div id="fleche">
-<svg id="" xmlns="http://www.w3.org/2000/svg" width="100" height="100">
-    <path id="arrow" fill="#090BAB" d="M 100,50 L 0,0 L 30,50 L 0,100" />
+<div align="center" id="">
+<svg id="fleche" xmlns="http://www.w3.org/2000/svg" width="100%"  height="100%">
+<g id="group_arrow" transform="translate(200,200)">
+    <path d="M300 0 L200 200  L300 130    L400 200 Z" />
+</g>
 </svg>
 
 </div>
