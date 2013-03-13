@@ -1,0 +1,61 @@
+<html>
+
+<head>
+<script>
+	
+	
+	
+	
+  var rotate = function (deg) { 
+   	 
+   	 document.getElementById("heading").innerHTML=deg;
+   	 
+   	 
+   	  var svgForm = document.getElementById("fleche");
+   	 svgForm.style.MozTransform="rotate(0deg)";
+   	  svgForm.style.MozTransform="rotate(' "+ deg +" 'deg";
+   	// var svgTag = document.getElementById("arrow");
+   	// var svgDoc = svgTag.getSVGDocument();
+   	 
+   //	 svgDoc.setAttribute("-moz-transform", "rotate(0deg)");
+   	//svgDoc.setAttribute("-moz-transform", "rotate(' "+ deg +" 'deg");
+   // var svgDoc = null;
+    
+    //svgDoc = svgTag.getSVGDocument();
+   	 //var arrow=document.getElementById("fleche");
+   	 //console.log("ok");
+   	 
+   //document.getElementById("fleche").style['-moz-transform']="rotate(0deg)";
+  // document.getElementById("fleche").style['-moz-transform']="rotate(' + deg + 'deg)";
+   	     
+      
+    };
+	
+ if (window.DeviceOrientationEvent) {
+     window.addEventListener("deviceorientation", function (e) {
+      rotate(360 - e.alpha);
+    }, false);
+  }
+  
+  rotate(210);
+
+	
+</script>
+</head>
+<body>
+<div id="fleche">
+<svg id="" xmlns="http://www.w3.org/2000/svg" width="100" height="100">
+    <path id="arrow" fill="#090BAB" d="M 100,50 L 0,0 L 30,50 L 0,100" />
+</svg>
+
+</div>
+
+
+
+<p id="heading"></p>
+<p id="alpha"></p>
+<p id="beta"></p>
+<p id="gamma"></p>
+
+</body>
+</html>
