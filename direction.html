@@ -3,65 +3,120 @@
 <head>
 <script>
 	
-	function dom_ready(){
+	var current_lat=48.815851;
+	var current_long=2.345109;
+	var to_lat=48.727849;
+	var to_long=2.269197;
+	var degre=5;
+	 if (navigator.geolocation){
+	        var watchId = navigator.geolocation.watchPosition(successCallback, errorCallback, {enableHighAccuracy:true});
+	      
+	      
+      }
+			
+function get_distance_m(lat1, lon1, lat2, lon2) {
+  var earth_radius = 6378137;   // Terre = sphère de 6378km de rayon
+  var rlo1 = toRad(lon1);
+  var rla1 = toRad(lat1);
+  var rlo2 = toRad(lon2);
+  var rla2 = toRad(lat2);
+  var dlo = (rlo2 - rlo1) / 2;
+  var dla = (rla2 - rla1) / 2;
+  var a = (Math.sin(dla) * Math.sin(dla)) + Math.cos(rla1) * Math.cos(rla2) * (Math.sin(dlo) * Math.sin(dlo
+));
+  var d = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+  console.log(earth_radius * d);
+  return (earth_radius * d);
+}
+	
+	function toRad(deg) {
+         return deg * Math.PI / 180;
+    }
+
+function update_dist(dist){
+	
+	
+	
+	document.getElementById("dist").innerHTML=dist;
+}
+
+
+function toDeg(rad) {
+        return rad * 180 / Math.PI;
+    }
+
+	function successCallback(position){
+		current_lat=position.coords.latitude;
+		current_long=position.coords.longitude;
 		
-				
+		
+		update_dist(Math.round(get_distance_m(current_lat,current_long,to_lat,to_long)));
+		
+		
+	
 	}
+	function errorCallback(){
+			
+	}
+	function calcul(lat1,lng1,lat2,lng2) {
+        var dLon = (lng2-lng1);
+        var y = Math.sin(dLon) * Math.cos(lat2);
+        var x = Math.cos(lat1)*Math.sin(lat2) - Math.sin(lat1)*Math.cos(lat2)*Math.cos(dLon);
+        var brng = toDeg(Math.atan2(y, x));
+        return 360 - ((brng + 360) % 360);
+    }
 	
 	
   var rotate = function (deg) { 
-   	 
-   	 //document.getElementById("heading").innerHTML=deg;
-   	console.log(deg);
-   	 
-   	  //var svgForm = document.getElementById("fleche");
-   	  
-   	// document.getElementById("fleche").style['-moz-transform']='rotate(14deg)';
-   	 //document.getElementById("fleche").style.MozTransform="rotate(' "+ deg +" 'deg)";
-   	// var svgTag = document.getElementById("arrow");
-   	// var svgDoc = svgTag.getSVGDocument();
-   	 
-   	 
+  console.log(deg);
+	  degre=deg;
    	  document.getElementById("group_arrow").setAttribute('transform','rotate('+deg+', 300, 130)');
-   	 
-   	 
-   	 
-//svgDoc.setAttribute("-moz-transform", "rotate(180,50,500)");
-   	//svgDoc.setAttribute("-moz-transform", "rotate(' "+ deg +" 'deg");
-   // var svgDoc = null;
-    
-    //svgDoc = svgTag.getSVGDocument();
-   	 //var arrow=document.getElementById("fleche");
-   	 //console.log("ok");
-   	 
-   //document.getElementById("fleche").style['-moz-transform']="rotate(0deg)";
-  // document.getElementById("fleche").style['-moz-transform']="rotate(' + deg + 'deg)";
-   	     
+
       
     };
 	
- 
+ function random_rotate(value){
+
+ rotate(parseInt(value)+parseInt(degre));
+ }
 
 window.addEventListener("DOMContentLoaded", function(e){ 
 
+console.log("Content loaded");
+var retour=calcul(current_lat, current_long,to_lat,to_long);
+var angle=360-retour;
+
+ document.getElementById("angle").innerHTML=angle;
 
 
 if (window.DeviceOrientationEvent) {
  
      window.addEventListener("deviceorientation", function (e) {
-      rotate(360 - e.alpha);
-      console.log("ok");
+      
+      
+     
+
+      
+      
+      var retour=calcul(current_lat, current_long,to_lat,to_long);
+      var angle=360-retour;
+      document.getElementById("angle").innerHTML=angle;
+       document.getElementById("alpha").innerHTML=e.alpha;
+               document.getElementById("rot").innerHTML=angle-e.alpha;
+                           rotate((360-e.alpha)+(360-angle));
+      
     }, false);
   }
 
 
-rotate(10);});
+});
 
 
 	
 </script>
 </head>
 <body>
+<div id="log"></div
 <div align="center" id="">
 <svg id="fleche" xmlns="http://www.w3.org/2000/svg" width="100%"  height="100%">
 <g id="group_arrow" transform="translate(200,200)">
@@ -71,12 +126,11 @@ rotate(10);});
 
 </div>
 
+<input type="button" onclick="random_rotate(5);"/>
 
-
-<p id="heading"></p>
-<p id="alpha"></p>
-<p id="beta"></p>
-<p id="gamma"></p>
-
+<p>Distance: <div id="dist"></div>m</p>
+<p>Rotation finale : <div id="rot"></div></p>
+<p>Angle point point : <div id="angle"></div></p>
+<p>Alpha ><div id="alpha"></div></p>
 </body>
 </html>

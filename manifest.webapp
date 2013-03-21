@@ -1,0 +1,18 @@
+{
+  "name": "RunRunRun",
+  "description": "The runkeeper for FOS",
+  "launch_path": "/index.html",
+  "type": "certified",
+  "icons": {
+    "60": "/img/icon-ffos.png"
+  },
+  
+  "permissions": {
+    "geolocation":{}
+   },
+  "developer": {
+    "name": "guizmo51",
+    "url": "https://github.com/guizmo51/Run-Run-Run"
+  },
+  "default_locale": "fr"
+}

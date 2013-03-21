@@ -51,7 +51,7 @@ function CalcDistanceBetween(lat1, lon1, lat2, lon2) {
         center: latlng,
         mapTypeId: google.maps.MapTypeId.ROADMAP
     };
-   map = new google.maps.Map(document.getElementById("map"),myOptions);
+   //map = new google.maps.Map(document.getElementById("map"),myOptions);
       
       
 }
@@ -62,6 +62,6 @@ function CalcDistanceBetween(lat1, lon1, lat2, lon2) {
 //en haut à droite : 48.755397,2.320493
 
 
-  google.maps.event.addDomListener(window, "load", initialize);
+ // google.maps.event.addDomListener(window, "load", initialize);
 	     
 	     

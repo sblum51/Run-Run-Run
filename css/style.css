@@ -20,7 +20,8 @@ body {
 	margin-left: auto;
 	width: auto;
 	min-width: 300px;
-	overflow: auto;
+	/*overflow: auto;*/
+	overflow: hidden;
 	padding: 0;
 }
 .none {
@@ -118,7 +119,7 @@ body {
 }
 .page-block input, .page-block select {
 	width: 125px;
-	height: 15px;
+	height: 25px;
 	display: inline-block;
 	float: right;
     -webkit-box-sizing: content-box;
