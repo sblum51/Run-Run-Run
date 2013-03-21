@@ -697,7 +697,7 @@ var get_tag_info=function(key, objet){
 
 
 function get_tag_name(id){
-   
+   console.log(id);
   store_tags=db.transaction(STORENAME_TAGS, type).objectStore(STORENAME_TAGS);
   var keyRange = IDBKeyRange.only(parseInt(id));
   var cursorRequest = store_tags.openCursor(keyRange);
@@ -1041,8 +1041,8 @@ var work_on_parcours=function(id){
       var retour=cursor.continue();
     }else{
       var duree_ms=max_ts-min_ts;
-      polyline(path_polyline);
-      center_map(old_lati,old_longi);
+      //polyline(path_polyline); Gmaps is disabled
+      //center_map(old_lati,old_longi); Gmap is disabled
     }
 
   };
