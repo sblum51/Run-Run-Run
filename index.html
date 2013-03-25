@@ -10,26 +10,20 @@
   <meta http-equiv="Cache-control" content="no-store">
   <meta http-equiv="Cache-control" content="no-cache">
 
-  
+  <script type="text/javascript" src="OpenLayers.js"></script>
+  <script type="text/javascript" src="js/osm.js"></script>
   <script type="text/javascript" src="js/time.js"></script>
   <script type="text/javascript" src="js/dom.js"></script>
   <script type="text/javascript" src="js/db_mgnt.js"></script>
   <script type="text/javascript" src="js/geolocation.js"></script>
-  <script type="text/javascript" src="js/gmaps.js"></script>
+ <script type="text/javascript" src="js/gmaps.js"></script>
   <script type="text/javascript" src="js/l10n.js"></script>
-  <script type="text/javascript" src="OpenLayers.js"></script>
-
-
-<script type="text/javascript">
-    map = new OpenLayers.Map("demoMap");
-    map.addLayer(new OpenLayers.Layer.OSM());
-    map.zoomToMaxExtent();
-</script>
-
+  
+  
   <script type="text/javascript">
     var id_visible = "home";
     window.onload = function() {
-      
+    init_osm();
       runrunrun.indexedDB.open();
       document.getElementById("logo").addEventListener("click", changeVisibility, false);
       document.getElementById("top-titre").addEventListener("click", changeVisibility, false);
@@ -152,7 +146,8 @@
          <input type="button" value="Carte" onclick="flyto('container');" />
       </div>
       <div id="container"  class="container page none">
-         <div id="demoMap" style="height:250px"></div>
+        <div id="osm_map" style="width:200px; height:200px; margin: 0 auto;"></div>
+
          <input type="button" value="retour" onclick="flyto('detail_parcours');" />
       </div>
       <div id="parcours_list" class="container page none">
@@ -311,4 +306,5 @@
       </div>
    
    </body>
+   
 </html>

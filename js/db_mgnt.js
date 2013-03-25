@@ -1043,6 +1043,10 @@ var work_on_parcours=function(id){
       var duree_ms=max_ts-min_ts;
       //polyline(path_polyline); Gmaps is disabled
       //center_map(old_lati,old_longi); Gmap is disabled
+
+      center_map(old_lati, old_longi, 4);
+      console.log("Lat "+old_lati+" Long "+old_longi);
+
     }
 
   };

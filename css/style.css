@@ -10,6 +10,12 @@ body {
   overflow: hidden;
 }
 
+/*#osm_map{
+
+width:200px; 
+height:200px;
+margin: 0 auto;
+}*/
 
 .page-block select {
 	font-size: 14px;
@@ -41,6 +47,7 @@ body {
 	width: 300px;
 	height: 100%;
     margin: auto; 
+    padding-bottom: 3em;
 }
 #table_parcours thead {
 	background-color: #FAFAFA;

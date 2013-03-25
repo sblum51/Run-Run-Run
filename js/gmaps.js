@@ -18,12 +18,7 @@ function CalcDistanceBetween(lat1, lon1, lat2, lon2) {
 	     
 	     
 	     
-	     function center_map(latitude, longitude){
-		     
-		     map.setCenter(new google.maps.LatLng(latitude,longitude));
-		     
-	     }
-	     
+	   
 	     
 	      function polyline(path_polyline) {
 		    
