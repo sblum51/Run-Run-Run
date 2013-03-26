@@ -1012,7 +1012,8 @@ var work_on_parcours=function(id){
   var old_lati=null;
   var old_longi=null;
   var cursorRequest=index.openCursor(singleKeyRange);
-  
+  var array_coord=new Array();
+
   cursorRequest.onsuccess = function(event) {
     var cursor = event.target.result;
     if (cursor) {
@@ -1025,8 +1026,14 @@ var work_on_parcours=function(id){
         distance=distance+CalcDistanceBetween(old_lati, old_longi,cursor.value.latitude,cursor.value.longitude);
       }
       
-      var p = new google.maps.LatLng(cursor.value.latitude, cursor.value.longitude);
-      path_polyline.push(p);
+      var coord={};
+
+      coord.lat=cursor.value.latitude;
+      coord.lon=cursor.value.longitude;
+      array_coord.push(coord);
+      console.log(coord.lat);
+      //var p = new google.maps.LatLng(cursor.value.latitude, cursor.value.longitude);
+      //path_polyline.push(p);
       
       if(cursor.value.speed>=vitesse_max){
         vitesse_max=cursor.value.speed;
@@ -1044,8 +1051,9 @@ var work_on_parcours=function(id){
       //polyline(path_polyline); Gmaps is disabled
       //center_map(old_lati,old_longi); Gmap is disabled
 
-      center_map(old_lati, old_longi, 4);
-      console.log("Lat "+old_lati+" Long "+old_longi);
+      //center_map(old_lati, old_longi, 16);
+      draw_trace(array_coord);
+      console.log(old_lati+" "+old_longi);
 
     }
 

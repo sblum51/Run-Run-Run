@@ -10,16 +10,25 @@ body {
   overflow: hidden;
 }
 
-/*#osm_map{
+#osm_map{
 
 width:200px; 
 height:200px;
-margin: 0 auto;
-}*/
+
+}
 
 .page-block select {
 	font-size: 14px;
 }
+
+#fleche{
+
+margin: 0 auto;
+height: 250px;
+display:block;
+width: 90%;
+}
+
 
 .container {
 	margin-right: auto;

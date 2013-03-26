@@ -38,8 +38,9 @@ function successCallback(position){
 	   		
 	   		
 	   		
-				distance=distance+CalcDistanceBetween(old_lati,old_longi,position.coords.latitude,position.coords.longitude);
-	   		
+				distance=parseFloat(distance)+parseFloat(CalcDistanceBetween(old_lati,old_longi,position.coords.latitude,position.coords.longitude));
+	   		old_lati=position.coords.latitude;
+	   		old_longi=position.coords.longitude;
 	   		
    		}  
 		  
@@ -56,7 +57,7 @@ function successCallback(position){
   obj.heading=position.coords.heading;
   obj.speed=position.coords.speed;
   obj.parcours_id=parcours_id;
-  obj.distance=distance;
+  obj.distance=distance.toFixed(3);
   update_display(obj);
   console.log(obj);
   add_record(obj)

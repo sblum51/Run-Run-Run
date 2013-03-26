@@ -110,6 +110,7 @@
             </div>
          </div>
          <input type="button" data-l10n-id="button_start_course" value="Commencer" onclick="start_parcours();" />
+         <input type="button" value="GoBackHome" onClick="flyto('gobackhome');"/>
       </div>
       <div id="trace" class="container page none">
          <p id="time">
@@ -131,7 +132,7 @@
             <input type="button" value="Pause" onClick="clearTimeout(compte)">
             <input type="button" value="Rego" onClick="chrono()">
             <input type="button" value="STOP" onClick="stopWatch(compte)"/>
-              <input type="button" value="GoBackHome" onClick=""/>
+            <input type="button" value="GoBackHome" onClick="flyto('gobackhome');"/>
          </form>
       </div>
       <div id="detail_parcours" class="container page none">
@@ -146,9 +147,17 @@
          <input type="button" value="Carte" onclick="flyto('container');" />
       </div>
       <div id="container"  class="container page none">
-        <div id="osm_map" style="width:200px; height:200px; margin: 0 auto;"></div>
+        <div id="osm_map" style="width:300px; height:340px; margin: 0 auto;"></div>
 
          <input type="button" value="retour" onclick="flyto('detail_parcours');" />
+      </div>
+      <div id="gobackhome"  class="container page none">
+          <svg id="fleche" xmlns="http://www.w3.org/2000/svg"  >
+            <g id="group_arrow" transform="">
+              <path d="M150 0 L100 100  L150 65    L200 100 Z" />
+            </g>
+          </svg>
+          <input type="button" value="retour" onclick="flyto('trace');" />
       </div>
       <div id="parcours_list" class="container page none">
          <h1>Liste des parcours</h1>
