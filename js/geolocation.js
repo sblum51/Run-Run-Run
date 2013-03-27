@@ -4,7 +4,7 @@ var watchId=null;
 var distance=0;
 var start_gps=function(parcours){
 
-
+	cpt=0;
 
 	parcours_id=parcours;
 	watchId = navigator.geolocation.watchPosition(successCallback, errorCallback, {enableHighAccuracy:true});
@@ -15,7 +15,7 @@ var start_gps=function(parcours){
 
 
 function successCallback(position){
-		console.log("ici");
+		
   if(cpt==0){
 	  
 	  var newobj={};
