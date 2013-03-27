@@ -48,7 +48,7 @@ runrunrun.indexedDB.open=function(){
     object_store_records=db.createObjectStore(STORENAME_RECORDS,{keyPath: undefined, autoIncrement: true});
     object_store_tags=db.createObjectStore(STORENAME_TAGS,{keyPath: undefined, autoIncrement: true});
     object_store_profils=db.createObjectStore(STORENAME_PROFILS,{keyPath: undefined, autoIncrement: true});
-    object_store_mapservice=db.createObjectStore(STORENAME_PROFILS,{keyPath: undefined, autoIncrement: true});
+    
             
     init_add_sport=true; //Variable sets to true for insertion of sports in IDB,
     object_store_records.createIndex('parcours_id','parcours_id',{unique: false });
@@ -1031,7 +1031,6 @@ var work_on_parcours=function(id){
       coord.lat=cursor.value.latitude;
       coord.lon=cursor.value.longitude;
       array_coord.push(coord);
-      console.log(coord.lat);
       //var p = new google.maps.LatLng(cursor.value.latitude, cursor.value.longitude);
       //path_polyline.push(p);
       
