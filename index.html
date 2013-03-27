@@ -9,26 +9,78 @@
   <!--ToRemoveLater -->
   <meta http-equiv="Cache-control" content="no-store">
   <meta http-equiv="Cache-control" content="no-cache">
-  <script type="text/javascript" src="js/runrunrun.js"></script>
+
   <script type="text/javascript" src="OpenLayers.js"></script>
   <script type="text/javascript" src="js/osm.js"></script>
   <script type="text/javascript" src="js/time.js"></script>
   <script type="text/javascript" src="js/dom.js"></script>
   <script type="text/javascript" src="js/db_mgnt.js"></script>
   <script type="text/javascript" src="js/geolocation.js"></script>
-  <script type="text/javascript" src="js/gmaps.js"></script>
+ <script type="text/javascript" src="js/gmaps.js"></script>
   <script type="text/javascript" src="js/l10n.js"></script>
   
+  
   <script type="text/javascript">
-    
+    var id_visible = "home";
+    window.onload = function() {
+    init_osm();
+      runrunrun.indexedDB.open();
+      document.getElementById("logo").addEventListener("click", changeVisibility, false);
+      document.getElementById("top-titre").addEventListener("click", changeVisibility, false);
+      var elements = document.getElementsByClassName("nav-item");
+
+      for(var i in elements) {
+        if(elements[i] instanceof Element){
+          elements[i].addEventListener("click", changeVisibility, false); 
+        }
+      };
+      
+      var flyto=function (id){
+        caller('fltyo');
+        document.getElementById(id).style.display = 'inline';
+        document.getElementById(id_visible).style.display = 'none';
+        id_visible = id;
+      }
+         
+      function changeVisibility() {
+        caller();
+        var id = this.getAttribute("data-role");
+
+        if(id == 'home') {
+          var elements = document.getElementsByClassName('page');
+
+          for(var i = 0, length = elements.length; i < length; i++) {
+            elements[i].style.display = 'none';
+          }
+
+          document.getElementById("home").style.display = 'inline';
+          id_visible = "home";
+        } else {
+
+          if(!isVisible(id)){
+            document.getElementById(id).style.display = 'inline';
+            document.getElementById(id_visible).style.display = 'none';
+            id_visible = id;
+          }
+        }
+      }
+      
+      function isVisible(id) {
+        caller();
+        if(document.getElementById(id).style.display == "inline")
+           return true;
+        else
+           return false;
+      }
+    }
   </script>
   <style type="text/css">
-    #container{position:relative;width:990px;margin:auto;} /*mettre valeur plus faibles */
+    #container{position:relative;width:990px;margin:auto;}
     #container #map{width:500px;height:500px;margin:auto;}
   </style>
 </head>
 <body>
-  <div id="top">
+   <div id="top">
       <div class="container">
          <img src="img/logo.png" data-role="home" id="logo" alt="Logo RunRunRun" title="RunRunRun" />
          <h1 id="top-titre" data-role="home">RunRunRun</h1>       
