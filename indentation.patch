@@ -1,0 +1,1670 @@
+diff --git a/algorithm.html b/algorithm.html
+index f73fc7b..3f75de4 100644
+--- a/algorithm.html
++++ b/algorithm.html
+@@ -1,137 +1,107 @@
++<!DOCTYPE html>
+ <html>
+ <head>
+-	<style type="text/css">
+-    #container{position:relative;width:990px;margin:auto;}
+-    #container #map{width:500px;height:500px;margin:auto;}
++  <style type="text/css">
++    #container { position: relative; width: 990px; margin: auto; }
++    #container #map{ width: 500px; height: 500px; margin: auto; }
+   </style>
+-<script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?sensor=false&libraries=geometry"></script>
+-<script>
+-
+-
+-var lat1=48.815455;
+-var lon1=2.34472;
+-var lat2=47.768868;
+-var lon2=2.351074;
+-
+-	     function initialize() {
+-	     console.log("init map");
+-    var latlng = new google.maps.LatLng(48.725623,2.272943);
+-    var myOptions = {
++  <script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?sensor=false&libraries=geometry"></script>
++  <script type="text/javascript">
++    var lat1=48.815455;
++    var lon1=2.34472;
++    var lat2=47.768868;
++    var lon2=2.351074;
++
++    function initialize() {
++      console.log("init map");
++      var latlng = new google.maps.LatLng(48.725623,2.272943);
++      var myOptions = {
+         zoom: 12,
+         center: latlng,
+         mapTypeId: google.maps.MapTypeId.ROADMAP
+-    };
+-   map = new google.maps.Map(document.getElementById("map"),myOptions);
+-       google.maps.event.addListener(map, "click", function(event)
+-    {
+-    console.log(map);
++      };
++      map = new google.maps.Map(document.getElementById("map"),myOptions);
++      google.maps.event.addListener(map, "click", function(event) {
++        console.log(map);
+         // display the lat/lng in your form's lat/lng fields
+-       lat2 = event.latLng.lat();
++        lat2 = event.latLng.lat();
+         lon2 = event.latLng.lng();
+         console.log(calcul(lat1,lon1,lat2,lon2));
+-        
++
+         var depart   = new google.maps.LatLng(lat1, lon1);
+-var arrivee  = new google.maps.LatLng(lat2, lon2);
++        var arrivee  = new google.maps.LatLng(lat2, lon2);
+         console.log( google.maps.geometry.spherical.computeHeading( depart, arrivee));
+-        
+-    });
+-      
+-}
+- 
+-
+-
+-function calcul(lat1,lng1,lat2,lng2) {
+-        var dLon = (lng2-lng1);
+-        var y = Math.sin(dLon) * Math.cos(lat2);
+-        var x = Math.cos(lat1)*Math.sin(lat2) - Math.sin(lat1)*Math.cos(lat2)*Math.cos(dLon);
+-        var brng = toDeg(Math.atan2(y, x));
+-        return 360 - ((brng + 360) % 360);
++      });
+     }
+ 
+-function deg2rad(value){
+-	
+-	
+-	return value*(180/Math.PI);
+-}
+- function toRad(deg) {
+-         return deg * Math.PI / 180;
++    function calcul(lat1,lng1,lat2,lng2) {
++      var dLon = (lng2-lng1);
++      var y = Math.sin(dLon) * Math.cos(lat2);
++      var x = Math.cos(lat1)*Math.sin(lat2) - Math.sin(lat1)*Math.cos(lat2)*Math.cos(dLon);
++      var brng = toDeg(Math.atan2(y, x));
++      return 360 - ((brng + 360) % 360);
+     }
+ 
+-function toDeg(rad) {
+-        return rad * 180 / Math.PI;
++    function deg2rad(value){
++      return value*(180/Math.PI);
+     }
+ 
++    function toRad(deg) {
++      return deg * Math.PI / 180;
++    }
+ 
++    function toDeg(rad) {
++      return rad * 180 / Math.PI;
++    }
+ 
++    function get_distance_m(lat1, lon1, lat2, lon2) {
++      var earth_radius = 6378137; // Terre = sphère de 6378km de rayon
++      var rlo1 = deg2rad(lon1);
++      var rla1 = deg2rad(lat1);
++      var rlo2 = deg2rad(lon2);
++      var rla2 = deg2rad(lat2);
++      var dlo = (rlo2 - rlo1) / 2;
++      var dla = (rla2 - rla1) / 2;
++      var a = (Math.sin(dla) * Math.sin(dla)) +
++        Math.cos(rla1) * Math.cos(rla2) * (Math.sin(dlo) * Math.sin(dlo));
++      var d = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
++      console.log(earth_radius * d);
++      return (earth_radius * d);
++    }
+ 
+-function get_distance_m(lat1, lon1, lat2, lon2) {
+-  var earth_radius = 6378137;   // Terre = sphère de 6378km de rayon
+-  var rlo1 = deg2rad(lon1);
+-  var rla1 = deg2rad(lat1);
+-  var rlo2 = deg2rad(lon2);
+-  var rla2 = deg2rad(lat2);
+-  var dlo = (rlo2 - rlo1) / 2;
+-  var dla = (rla2 - rla1) / 2;
+-  var a = (Math.sin(dla) * Math.sin(dla)) + Math.cos(rla1) * Math.cos(rla2) * (Math.sin(dlo) * Math.sin(dlo
+-));
+-  var d = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+-  console.log(earth_radius * d);
+-  return (earth_radius * d);
+-}
+-
+-
+- google.maps.event.addDomListener(window, "load", initialize);
+-window.addEventListener("DOMContentLoaded", function(e){ 
+-
+-
+-
+-
+-var depart   = new google.maps.LatLng(lat1, lon1);
+-var arrivee  = new google.maps.LatLng(lat2, lon2);
+-var angle    = google.maps.geometry.spherical.computeHeading( depart, arrivee);
+-
+-
+-var d=get_distance_m(lat1, lon1, lat2, lon2);
+-
+-if((Math.sin(lon2-lon1))<0){
+-	
+-	var tc1=Math.acos((Math.sin(lat2)-Math.sin(lat1)*Math.cos(d))/(Math.sin(d)*Math.cos(lat1))) 
+-}else{
+-	var tc1=2*Math.PI-Math.acos((Math.sin(lat2)-Math.sin(lat1)*Math.cos(d))/(Math.sin(d)*Math.cos(lat1))) ;
+-
+-	
+-}
+-
+-//console.log(tc1);
++    google.maps.event.addDomListener(window, "load", initialize);
++    window.addEventListener("DOMContentLoaded", function(e) {
+ 
++    var depart   = new google.maps.LatLng(lat1, lon1);
++    var arrivee  = new google.maps.LatLng(lat2, lon2);
++    var angle    = google.maps.geometry.spherical.computeHeading( depart, arrivee);
+ 
+-var angle2= Math.atan2(Math.sin(lon2-lon1)*Math.cos(lat2), Math.cos(lat1)*Math.sin(lat2) - Math.sin(lat1)*Math.cos(lat2)*Math.cos(lon2-lon1));
++    var d = get_distance_m(lat1, lon1, lat2, lon2);
+ 
+-var dx = lat2 - lat1;
+-var dy = lon2 - lat2;
++    if ((Math.sin(lon2-lon1)) < 0) {
++      var tc1 = Math.acos((Math.sin(lat2)-Math.sin(lat1)*Math.cos(d))/(Math.sin(d)*Math.cos(lat1))) 
++    } else {
++      var tc1 = 2*Math.PI-Math.acos((Math.sin(lat2)-Math.sin(lat1)*Math.cos(d))/(Math.sin(d)*Math.cos(lat1))) ;
++    }
++    // console.log(tc1);
+ 
+-document.getElementById("deg").innerHTML=angle2*(360/(2*Math.PI));
+-console.log(angle);
+-console.log(tc1);
+-document.getElementById("deg").innerHTML=calcul(lat1, lon1, lat2, lon2);
++    var angle2 = Math.atan2(Math.sin(lon2-lon1)*Math.cos(lat2), Math.cos(lat1)*Math.sin(lat2) - Math.sin(lat1)*Math.cos(lat2)*Math.cos(lon2-lon1));
+ 
+-});
+-</script>
++    var dx = lat2 - lat1;
++    var dy = lon2 - lat2;
+ 
++    document.getElementById("deg").innerHTML=angle2*(360/(2*Math.PI));
++    console.log(angle);
++    console.log(tc1);
++    document.getElementById("deg").innerHTML=calcul(lat1, lon1, lat2, lon2);
++  </script>
+ </head>
+-
+-
+ <body>
+-<div id="deg">
+-</div>
+-<div id="lat1"></div>
+-<div id="lon1"></div>
+-
+-<div id="container">
+-<div id="map">
+-
+-</div></div>
+-
++  <div id="deg"></div>
++  <div id="lat1"></div>
++  <div id="lon1"></div>
++  <div id="container">
++    <div id="map"></div>
++  </div>
+ </body>
+-
+-</html>
+\ No newline at end of file
++</html>
+diff --git a/css/style.css b/css/style.css
+index 311d497..9b6c22d 100644
+--- a/css/style.css
++++ b/css/style.css
+@@ -11,307 +11,331 @@ body {
+ }
+ 
+ #osm_map{
+-
+-width:200px; 
+-height:200px;
+-
++  width: 200px;
++  height: 200px;
+ }
+ 
+ .page-block select {
+-	font-size: 14px;
++  font-size: 14px;
+ }
+ 
+ #fleche{
+-
+-margin: 0 auto;
+-height: 250px;
+-display:block;
+-width: 90%;
++  margin: 0 auto;
++  height: 250px;
++  display: block;
++  width: 90%;
+ }
+ 
+-
+ .container {
+-	margin-right: auto;
+-	margin-left: auto;
+-	width: auto;
+-	min-width: 300px;
+-	/*overflow: auto;*/
+-	overflow: hidden;
+-	padding: 0;
++  margin-right: auto;
++  margin-left: auto;
++  width: auto;
++  min-width: 300px;
++  /*overflow: auto;*/
++  overflow: hidden;
++  padding: 0;
+ }
++
+ .none {
+-	display: none;
++  display: none;
+ }
+ 
+-
+ #parcours_list,#detail_parcours {
+-	width: 100%;
+-	height: 100%;
+-    position: absolute;
+-    overflow-x: hidden;
+-    overflow-y: scroll;
++  width: 100%;
++  height: 100%;
++  position: absolute;
++  overflow-x: hidden;
++  overflow-y: scroll;
+ }
+ 
+ #table_parcours {
+-	width: 300px;
+-	height: 100%;
+-    margin: auto; 
+-    padding-bottom: 3em;
++  width: 300px;
++  height: 100%;
++  margin: auto;
++  padding-bottom: 3em;
+ }
++
+ #table_parcours thead {
+-	background-color: #FAFAFA;
+-    background-image: linear-gradient(to bottom, #FFFFFF, #F2F2F2);
+-    border-color: #D4D4D4;
+-    border-style: solid;
+-    border-width: 1px 0;
+-    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.067);
++  background-color: #FAFAFA;
++  background-image: linear-gradient(to bottom, #FFFFFF, #F2F2F2);
++  border-color: #D4D4D4;
++  border-style: solid;
++  border-width: 1px 0;
++  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.067);
+ }
++
+ #table_parcours td {
+-	padding: 5px;
++  padding: 5px;
+ }
+ 
+ 
+-
+ /**********
+-	TOP
++  TOP
+ ***********/
++
+ #top {
+-	position: relative;
+-	z-index: 100;
+-	background-color: #0088CC;
+-    background-repeat: repeat-x;
+-    border-color: #0088CC;
+-    padding: 0;
++  position: relative;
++  z-index: 100;
++  background-color: #0088CC;
++  background-repeat: repeat-x;
++  border-color: #0088CC;
++  padding: 0;
+ }
++
+ #top h1 {
+-	color: white;
+-	font-size: 20px;
+-	font-weight: 200;
+-    letter-spacing: -1px;
+-    margin: 13px 0;
+-    cursor: pointer;
++  color: white;
++  font-size: 20px;
++  font-weight: 200;
++  letter-spacing: -1px;
++  margin: 13px 0;
++  cursor: pointer;
+ }
++
+ #logo {
+-	float: left;
+-	cursor: pointer;
++  float: left;
++  cursor: pointer;
+ }
+ 
++
+ /**********
+-	PAGE
++  PAGE
+ ***********/
++
+ .page {
+-	text-align: center;
++  text-align: center;
+ }
++
+ .page-grey {
+-	background-color: #FAFAFA;
+-	background-image: linear-gradient(to bottom, #FFFFFF, #F2F2F2);
+-	border-color: #D4D4D4;
+-	border-style: solid;
+-	border-width: 1px 0;
+-	box-shadow: 0 1px 4px rgba(0, 0, 0, 0.067);
+-	margin-bottom: 5px;
++  background-color: #FAFAFA;
++  background-image: linear-gradient(to bottom, #FFFFFF, #F2F2F2);
++  border-color: #D4D4D4;
++  border-style: solid;
++  border-width: 1px 0;
++  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.067);
++  margin-bottom: 5px;
+ }
++
+ .page-block {
+-	width: 270px;
+-	overflow: hidden;
+-	margin: auto;
+-	padding: 8px 0;
++  width: 270px;
++  overflow: hidden;
++  margin: auto;
++  padding: 8px 0;
+ }
++
+ .page h1 {
+-	color: #0088CC;
+-	font-size: 28px;
+-	font-weight: 400;
+-	letter-spacing: -2px;
+-	margin: 12px 0;
+-	//text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.15);
++  color: #0088CC;
++  font-size: 28px;
++  font-weight: 400;
++  letter-spacing: -2px;
++  margin: 12px 0;
++  // text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.15);
+ }
+ 
+ .page-block label {
+-	width: 125px;
+-	font-size: 16px;
+-	display: inline-block;
+-	float: left;
+-	text-align: left;
++  width: 125px;
++  font-size: 16px;
++  display: inline-block;
++  float: left;
++  text-align: left;
+ }
++
+ .page-block input, .page-block select {
+-	width: 125px;
+-	height: 25px;
+-	display: inline-block;
+-	float: right;
++  width: 125px;
++  height: 25px;
++  display: inline-block;
++  float: right;
+     -webkit-box-sizing: content-box;
+ }
++
+ .page-block input {
+-	font-size: 16px;
++  font-size: 16px;
+ }
++
+ .page input[type=button] {
+-	width: 115px;
+-	height: 30px;
+-	margin: 10px auto;
+-	display: block;
+-	color: white;
+-	background-color: #0088CC;
+-	font-size: 16px;
+-	border-radius: 5px;
+-	background-image: linear-gradient(to bottom, #0088CC, #00679a);
+-	border: 0;
+-	box-shadow: 0 1px 0 rgba(255, 255, 255, 0.1) inset, 0 1px 5px rgba(0, 0, 0, 0.25);
+-	-webkit-box-shadow: 0 1px 0 rgba(255, 255, 255, 0.1) inset, 0 1px 5px rgba(0, 0, 0, 0.25);
+-	-webkit-appearance: none;
++  width: 115px;
++  height: 30px;
++  margin: 10px auto;
++  display: block;
++  color: white;
++  background-color: #0088CC;
++  font-size: 16px;
++  border-radius: 5px;
++  background-image: linear-gradient(to bottom, #0088CC, #00679a);
++  border: 0;
++  box-shadow: 0 1px 0 rgba(255, 255, 255, 0.1) inset, 0 1px 5px rgba(0, 0, 0, 0.25);
++  -webkit-box-shadow: 0 1px 0 rgba(255, 255, 255, 0.1) inset, 0 1px 5px rgba(0, 0, 0, 0.25);
++  -webkit-appearance: none;
+ }
+ .page-block h2 {
+-	font-size: 16px;
+-	font-weight: normal;
+-	padding: 0;
+-	margin: 0;
++  font-size: 16px;
++  font-weight: normal;
++  padding: 0;
++  margin: 0;
+ }
+-  
++
+ #start {
+-	width: 75px;
+-	height: 25px;
+-	border: 1px #D4D4D4 solid;
+-	background: #aac900;
+-	color: white;
+-	margin: 5px auto 0 auto;
+-	padding: 5px;
+-	border-radius: 4px;
++  width: 75px;
++  height: 25px;
++  border: 1px #D4D4D4 solid;
++  background: #aac900;
++  color: white;
++  margin: 5px auto 0 auto;
++  padding: 5px;
++  border-radius: 4px;
+ }
++
+ #start h2 {
+-	font-weight: normal;
+-	margin-top: 2px;
++  font-weight: normal;
++  margin-top: 2px;
+ }
+ 
++
+ /*************
+-	FOOTER
++  FOOTER
+ **************/
++
+ #footer {
+-	bottom: 0;
+-	left: 0;
+-    margin-bottom: 0;
+-    position: fixed;
+-    right: 0;
+-    z-index: 1030;
+-    clear: both;
++  bottom: 0;
++  left: 0;
++  margin-bottom: 0;
++  position: fixed;
++  right: 0;
++  z-index: 1030;
++  clear: both;
+ }
++
+ #nav-bar {
+-	min-height: 40px;
+-	display:block;
+-	width:100%;
+-	text-align:center;
+-    overflow: hidden;
+-    padding: 5px 0 0 0;
+-    border-width: 1px 0 0;
+-    border-style: solid;
+-    border-color: #d4d4d4;
+-    background-color: #fafafa;
+-    background-repeat: repeat-x;
+-    background-image: -moz-linear-gradient(top, #ffffff, #f2f2f2);
+-	background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#ffffff), to(#f2f2f2));
+-	background-image: -webkit-linear-gradient(top, #ffffff, #f2f2f2);
+-	background-image: -o-linear-gradient(top, #ffffff, #f2f2f2);
+-	background-image: linear-gradient(to bottom, #ffffff, #f2f2f2);
+-	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffffffff', endColorstr='#fff2f2f2', GradientType=0);
+-	*zoom: 1;
+-	-webkit-box-shadow: 0 1px 4px rgba(0, 0, 0, 0.065);
+-	-moz-box-shadow: 0 1px 4px rgba(0, 0, 0, 0.065);
+-	box-shadow: 0 1px 4px rgba(0, 0, 0, 0.065);
++  min-height: 40px;
++  display: block;
++  width: 100%;
++  text-align: center;
++  overflow: hidden;
++  padding: 5px 0 0 0;
++  border-width: 1px 0 0;
++  border-style: solid;
++  border-color: #d4d4d4;
++  background-color: #fafafa;
++  background-repeat: repeat-x;
++  background-image: -moz-linear-gradient(top, #ffffff, #f2f2f2);
++  background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#ffffff), to(#f2f2f2));
++  background-image: -webkit-linear-gradient(top, #ffffff, #f2f2f2);
++  background-image: -o-linear-gradient(top, #ffffff, #f2f2f2);
++  background-image: linear-gradient(to bottom, #ffffff, #f2f2f2);
++  filter: progid: DXImageTransform.Microsoft.gradient(startColorstr='#ffffffff', endColorstr='#fff2f2f2', GradientType=0);
++  *zoom: 1;
++  -webkit-box-shadow: 0 1px 4px rgba(0, 0, 0, 0.065);
++  -moz-box-shadow: 0 1px 4px rgba(0, 0, 0, 0.065);
++  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.065);
+ }
++
+ .nav-icon {
+-	width: 34px;	
+-	height: 27px;
+-	overflow: hidden;
+-	margin: 0 auto;
+-	display: inline-block;
+-	padding: 5px 20px;
++  width: 34px;
++  height: 27px;
++  overflow: hidden;
++  margin: 0 auto;
++  display: inline-block;
++  padding: 5px 20px;
+ }
+ #nav-icon-mid {
+-	border-left: 1px #0088CC solid;
+-	border-right: 1px #0088CC solid;
+-	margin: auto;
++  border-left: 1px #0088CC solid;
++  border-right: 1px #0088CC solid;
++  margin: auto;
+ }
++
+ .picto {
+-	width: 34px;	
+-	height: 27px;
+-	margin: auto;
+-	cursor: pointer;
++  width: 34px;
++  height: 27px;
++  margin: auto;
++  cursor: pointer;
+ }
++
+ #picto-new {
+-	background: url(../img/glyphicons_190_circle_plus.png);
++  background: url(../img/glyphicons_190_circle_plus.png);
+ }
++
+ #picto-list {
+-	background: url(../img/glyphicons_114_list.png);
++  background: url(../img/glyphicons_114_list.png);
+ }
++
+ #picto-config {
+-	background: url(../img/glyphicons_137_cogwheels.png);
++  background: url(../img/glyphicons_137_cogwheels.png);
+ }
+ 
++
+ /**********
+-	HOME
++  HOME
+ ***********/
++
+ #hp {
+-	width: 100%;
++  width: 100%;
+     height: 629px;
+     display: block;
+     background: url(../img/a2.jpg) no-repeat;
+     position: fixed;
+ }
+ #element {
+-	background-image: -moz-radial-gradient(center center, circle contain, rgba(255, 255, 255, 1) 40%, rgba(255, 255, 255, 0) 100%);
+-	background-image: -webkit-radial-gradient(center center, circle contain, rgba(255, 255, 255, 1) 40%, rgba(255, 255, 255, 0) 100%);
+-	width: 500px;
+-	height: 500px;
+-	position: fixed;
+-	left: 50%;
+-	top: 50%;
+-	margin: -215px 0 0 -250px;
++  background-image: -moz-radial-gradient(center center, circle contain, rgba(255, 255, 255, 1) 40%, rgba(255, 255, 255, 0) 100%);
++  background-image: -webkit-radial-gradient(center center, circle contain, rgba(255, 255, 255, 1) 40%, rgba(255, 255, 255, 0) 100%);
++  width: 500px;
++  height: 500px;
++  position: fixed;
++  left: 50%;
++  top: 50%;
++  margin: -215px 0 0 -250px;
+ }
+ #titre {
+-	margin: 0;
+-	text-align: center;
+-	position: fixed;
+-	left: 0;
+-	top: 49%;
+-	width: 100%;
++  margin: 0;
++  text-align: center;
++  position: fixed;
++  left: 0;
++  top: 49%;
++  width: 100%;
+ }
+ #titre h1, #titre h2 {
+-	color: #0088CC;
+-	font-size: 64px;
+-	font-weight: 400;
+-	letter-spacing: -4px;
+-	display: block;
+-	margin: 0;
+-	padding: 0;
++  color: #0088CC;
++  font-size: 64px;
++  font-weight: 400;
++  letter-spacing: -4px;
++  display: block;
++  margin: 0;
++  padding: 0;
+ }
+ #titre h2 {
+-	font-size: 44px;
+-	color: #45a4dc;
+-	margin: 25px 0 0 0;
++  font-size: 44px;
++  color: #45a4dc;
++  margin: 25px 0 0 0;
+ }
+ 
++
+ /*****************
+-	RESPONSIVE
++  RESPONSIVE
+ ******************/
++
+ @media (max-height: 300px), (max-width: 500px) {
+-	#titre h1 {
+-		font-size: 36px;
+-	}
+-	#titre h2 {
+-		font-size: 28px;
+-		margin: 8px 0 0 0;
+-	}
+-	#element {
+-		width: 300px;
+-		height: 300px;
+-		margin: -120px 0 0 -150px;
+-	}
++  #titre h1 {
++    font-size: 36px;
++  }
++  #titre h2 {
++    font-size: 28px;
++    margin: 8px 0 0 0;
++  }
++  #element {
++    width: 300px;
++    height: 300px;
++    margin: -120px 0 0 -150px;
++  }
+ }
+ 
++
+ /**********
+-	RESET
++  RESET
+ ***********/
++
+ span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, acronym, address, big, cite, code, del, dfn, em, font, img, ins, kbd, q, s, samp, small, strike, strong, sub, sup, tt, var, b, u, i, center, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td {
+-	background: none repeat scroll 0 0 transparent;
+-	border: 0 none;
+-	margin: 0;
+-	outline: 0 none;
+-	padding: 0;
+-}
+\ No newline at end of file
++  background: none repeat scroll 0 0 transparent;
++  border: 0 none;
++  margin: 0;
++  outline: 0 none;
++  padding: 0;
++}
++
+diff --git a/direction.html b/direction.html
+index caac101..af20cf2 100644
+--- a/direction.html
++++ b/direction.html
+@@ -1,136 +1,103 @@
++<!DOCTYPE html>
+ <html>
+-
+ <head>
+-<script>
+-	
+-	var current_lat=48.815851;
+-	var current_long=2.345109;
+-	var to_lat=48.727849;
+-	var to_long=2.269197;
+-	var degre=5;
+-	 if (navigator.geolocation){
+-	        var watchId = navigator.geolocation.watchPosition(successCallback, errorCallback, {enableHighAccuracy:true});
+-	      
+-	      
+-      }
+-			
+-function get_distance_m(lat1, lon1, lat2, lon2) {
+-  var earth_radius = 6378137;   // Terre = sphère de 6378km de rayon
+-  var rlo1 = toRad(lon1);
+-  var rla1 = toRad(lat1);
+-  var rlo2 = toRad(lon2);
+-  var rla2 = toRad(lat2);
+-  var dlo = (rlo2 - rlo1) / 2;
+-  var dla = (rla2 - rla1) / 2;
+-  var a = (Math.sin(dla) * Math.sin(dla)) + Math.cos(rla1) * Math.cos(rla2) * (Math.sin(dlo) * Math.sin(dlo
+-));
+-  var d = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+-  console.log(earth_radius * d);
+-  return (earth_radius * d);
+-}
+-	
+-	function toRad(deg) {
+-         return deg * Math.PI / 180;
++  <script type="text/javascript">
++    var current_lat=48.815851;
++    var current_long=2.345109;
++    var to_lat=48.727849;
++    var to_long=2.269197;
++    var degre=5;
++    if (navigator.geolocation){
++      var watchId = navigator.geolocation.watchPosition(successCallback, errorCallback, {enableHighAccuracy:true});
+     }
+ 
+-function update_dist(dist){
+-	
+-	
+-	
+-	document.getElementById("dist").innerHTML=dist;
+-}
+-
+-
+-function toDeg(rad) {
+-        return rad * 180 / Math.PI;
++    function get_distance_m(lat1, lon1, lat2, lon2) {
++      var earth_radius = 6378137;   // Terre = sphère de 6378km de rayon
++      var rlo1 = toRad(lon1);
++      var rla1 = toRad(lat1);
++      var rlo2 = toRad(lon2);
++      var rla2 = toRad(lat2);
++      var dlo = (rlo2 - rlo1) / 2;
++      var dla = (rla2 - rla1) / 2;
++      var a = (Math.sin(dla) * Math.sin(dla)) + Math.cos(rla1) * Math.cos(rla2) * (Math.sin(dlo) * Math.sin(dlo));
++      var d = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
++      console.log(earth_radius * d);
++      return (earth_radius * d);
+     }
+ 
+-	function successCallback(position){
+-		current_lat=position.coords.latitude;
+-		current_long=position.coords.longitude;
+-		
+-		
+-		update_dist(Math.round(get_distance_m(current_lat,current_long,to_lat,to_long)));
+-		
+-		
+-	
+-	}
+-	function errorCallback(){
+-			
+-	}
+-	function calcul(lat1,lng1,lat2,lng2) {
+-        var dLon = (lng2-lng1);
+-        var y = Math.sin(dLon) * Math.cos(lat2);
+-        var x = Math.cos(lat1)*Math.sin(lat2) - Math.sin(lat1)*Math.cos(lat2)*Math.cos(dLon);
+-        var brng = toDeg(Math.atan2(y, x));
+-        return 360 - ((brng + 360) % 360);
++    function toRad(deg) {
++      return deg * Math.PI / 180;
+     }
+-	
+-	
+-  var rotate = function (deg) { 
+-  console.log(deg);
+-	  degre=deg;
+-   	  document.getElementById("group_arrow").setAttribute('transform','rotate('+deg+', 300, 130)');
+ 
+-      
+-    };
+-	
+- function random_rotate(value){
++    function update_dist(dist){
++      document.getElementById("dist").innerHTML=dist;
++    }
+ 
+- rotate(parseInt(value)+parseInt(degre));
+- }
++    function toDeg(rad) {
++      return rad * 180 / Math.PI;
++    }
+ 
+-window.addEventListener("DOMContentLoaded", function(e){ 
++    function successCallback(position) {
++      current_lat=position.coords.latitude;
++      current_long=position.coords.longitude;
++      update_dist(Math.round(get_distance_m(current_lat,current_long,to_lat,to_long)));
++    }
+ 
+-console.log("Content loaded");
+-var retour=calcul(current_lat, current_long,to_lat,to_long);
+-var angle=360-retour;
++    function errorCallback() {}
+ 
+- document.getElementById("angle").innerHTML=angle;
++    function calcul(lat1,lng1,lat2,lng2) {
++      var dLon = (lng2-lng1);
++      var y = Math.sin(dLon) * Math.cos(lat2);
++      var x = Math.cos(lat1)*Math.sin(lat2) - Math.sin(lat1)*Math.cos(lat2)*Math.cos(dLon);
++      var brng = toDeg(Math.atan2(y, x));
++      return 360 - ((brng + 360) % 360);
++    }
+ 
++    var rotate = function (deg) {
++      console.log(deg);
++      degre=deg;
++      document.getElementById("group_arrow").setAttribute('transform','rotate('+deg+', 300, 130)');
++    };
+ 
+-if (window.DeviceOrientationEvent) {
+- 
+-     window.addEventListener("deviceorientation", function (e) {
+-      
+-      
+-     
++    function random_rotate(value){
++      rotate(parseInt(value)+parseInt(degre));
++    }
+ 
+-      
+-      
++    window.addEventListener("DOMContentLoaded", function(e) {
++      console.log("Content loaded");
+       var retour=calcul(current_lat, current_long,to_lat,to_long);
+       var angle=360-retour;
+-      document.getElementById("angle").innerHTML=angle;
+-       document.getElementById("alpha").innerHTML=e.alpha;
+-               document.getElementById("rot").innerHTML=angle-e.alpha;
+-                           rotate((360-e.alpha)+(360-angle));
+-      
+-    }, false);
+-  }
+-
+-
+-});
+-
+ 
+-	
+-</script>
++      document.getElementById("angle").innerHTML = angle;
++
++      if (window.DeviceOrientationEvent) {
++        window.addEventListener("deviceorientation", function (e) {
++          var retour=calcul(current_lat, current_long,to_lat,to_long);
++          var angle=360-retour;
++          document.getElementById("angle").innerHTML=angle;
++          document.getElementById("alpha").innerHTML=e.alpha;
++          document.getElementById("rot").innerHTML=angle-e.alpha;
++          rotate((360-e.alpha)+(360-angle));
++        }, false);
++      }
++    });
++  </script>
+ </head>
+ <body>
+-<div id="log"></div
+-<div align="center" id="">
+-<svg id="fleche" xmlns="http://www.w3.org/2000/svg" width="100%"  height="100%">
+-<g id="group_arrow" transform="translate(200,200)">
+-    <path d="M300 0 L200 200  L300 130    L400 200 Z" />
+-</g>
+-</svg>
+-
+-</div>
+-
+-<input type="button" onclick="random_rotate(5);"/>
+-
+-<p>Distance: <div id="dist"></div>m</p>
+-<p>Rotation finale : <div id="rot"></div></p>
+-<p>Angle point point : <div id="angle"></div></p>
+-<p>Alpha ><div id="alpha"></div></p>
++  <div id="log"></div>
++  <div align="center" id="">
++    <svg id="fleche" xmlns="http://www.w3.org/2000/svg" width="100%"  height="100%">
++      <g id="group_arrow" transform="translate(200,200)">
++        <path d="M300 0 L200 200  L300 130    L400 200 Z" />
++      </g>
++    </svg>
++  </div>
++
++  <input type="button" onclick="random_rotate(5);"/>
++
++  <p>Distance: <div id="dist"></div>m</p>
++  <p>Rotation finale : <div id="rot"></div></p>
++  <p>Angle point point : <div id="angle"></div></p>
++  <p>Alpha ><div id="alpha"></div></p>
+ </body>
+-</html>
+\ No newline at end of file
++</html>
+diff --git a/index.html b/index.html
+index 3259dd3..7856458 100644
+--- a/index.html
++++ b/index.html
+@@ -1,14 +1,15 @@
+ <!DOCTYPE html>
+ <html lang="en">
+-  <head>
++<head>
+   <meta charset="utf-8">
+   <title>RunRunRun</title>
+   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+-  <link rel="stylesheet" href="css/style.css" />
++  <link rel="stylesheet" type="text/css" href="css/style.css" />
+   <link rel="ressource" type="application/l10n" href="data.ini" />
+-  <!--ToRemoveLater -->
+-  <meta http-equiv="Cache-control" content="no-store">
+-  <meta http-equiv="Cache-control" content="no-cache">
++
++  <!-- ToRemoveLater -->
++  <meta http-equiv="Cache-control" content="no-store" />
++  <meta http-equiv="Cache-control" content="no-cache" />
+ 
+   <script type="text/javascript" src="OpenLayers.js"></script>
+   <script type="text/javascript" src="js/osm.js"></script>
+@@ -16,304 +17,304 @@
+   <script type="text/javascript" src="js/dom.js"></script>
+   <script type="text/javascript" src="js/db_mgnt.js"></script>
+   <script type="text/javascript" src="js/geolocation.js"></script>
+- <script type="text/javascript" src="js/gmaps.js"></script>
++  <script type="text/javascript" src="js/gmaps.js"></script>
+   <script type="text/javascript" src="js/l10n.js"></script>
+-  
+-  
+   <script type="text/javascript">
+     var id_visible = "home";
+     window.onload = function() {
+-    init_osm();
++      init_osm();
+       runrunrun.indexedDB.open();
+       document.getElementById("logo").addEventListener("click", changeVisibility, false);
+       document.getElementById("top-titre").addEventListener("click", changeVisibility, false);
+       var elements = document.getElementsByClassName("nav-item");
+ 
+       for(var i in elements) {
+-        if(elements[i] instanceof Element){
+-          elements[i].addEventListener("click", changeVisibility, false); 
++        if (elements[i] instanceof Element) {
++          elements[i].addEventListener("click", changeVisibility, false);
+         }
+       };
+-      
+-      var flyto=function (id){
++
++      var flyto = function (id){
+         caller('fltyo');
+         document.getElementById(id).style.display = 'inline';
+         document.getElementById(id_visible).style.display = 'none';
+         id_visible = id;
+       }
+-         
++
+       function changeVisibility() {
+         caller();
+         var id = this.getAttribute("data-role");
+ 
+-        if(id == 'home') {
++        if (id == 'home') {
+           var elements = document.getElementsByClassName('page');
+-
+-          for(var i = 0, length = elements.length; i < length; i++) {
++          for (var i = 0, length = elements.length; i < length; i++) {
+             elements[i].style.display = 'none';
+           }
+-
+           document.getElementById("home").style.display = 'inline';
+           id_visible = "home";
+-        } else {
+-
+-          if(!isVisible(id)){
+-            document.getElementById(id).style.display = 'inline';
+-            document.getElementById(id_visible).style.display = 'none';
+-            id_visible = id;
+-          }
++        } else if (!isVisible(id)) {
++          document.getElementById(id).style.display = 'inline';
++          document.getElementById(id_visible).style.display = 'none';
++          id_visible = id;
+         }
+       }
+-      
++
+       function isVisible(id) {
+         caller();
+-        if(document.getElementById(id).style.display == "inline")
+-           return true;
+-        else
+-           return false;
++        return (document.getElementById(id).style.display == "inline")
+       }
+     }
+   </script>
+   <style type="text/css">
+-    #container{position:relative;width:990px;margin:auto;}
+-    #container #map{width:500px;height:500px;margin:auto;}
++    #container { position: relative; width: 990px; margin: auto; }
++    #container #map{ width: 500px; height: 500px; margin: auto; }
+   </style>
+ </head>
+ <body>
+-   <div id="top">
+-      <div class="container">
+-         <img src="img/logo.png" data-role="home" id="logo" alt="Logo RunRunRun" title="RunRunRun" />
+-         <h1 id="top-titre" data-role="home">RunRunRun</h1>       
++  <div id="top">
++    <div class="container">
++      <img src="img/logo.png" data-role="home" id="logo" alt="Logo RunRunRun" title="RunRunRun" />
++      <h1 id="top-titre" data-role="home">RunRunRun</h1>
++    </div>
++  </div>
++
++  <div id="home" class="container">
++    <div id="hp">
++      <div id="element"></div>
++      <div id="titre">
++        <h1>RunRunRun</h1>
++        <h2>open web-app for FirefoxOS</h2>
++      </div>
++    </div>
++  </div>
++
++  <div id="p1" class="container page none">
++    <h1 data-l10n-id="add_parcours">Ajouter un parcours</h1>
++    <div class="page-grey container">
++      <div class="page-block">
++        <label for="choice-sports">Sports</label>
++        <select id="choice-sports" name="choice-sports"></select>
++      </div>
++    </div>
++    <div class="page-grey container">
++      <div class="page-block">
++        <label for="choice-tags">Tags</label>
++        <select id="choice-tags" name="choice-tags"></select>
++      </div>
++    </div>
++    <input type="button" data-l10n-id="button_start_course" value="Commencer" onclick="start_parcours();" />
++    <input type="button" value="GoBackHome" onClick="flyto('gobackhome');"/>
++  </div>
++
++  <div id="trace" class="container page none">
++    <p id="time">
++      <span id="time-min"></span>:<span id="time-sec"></span>
++    </p>
++    <p>
++      <span data-l10n-id="distance_label">Distance</span> : <span id="distance"></span>
++    </p>
++    <p>
++      <span data-l10n-id="accuracy_label">Précision</span> : <span id="accuracy"></span>
++    </p>
++    <p>
++      <span data-l10n-id="speed_label">Vitesse </span>: <span id="speed"></span>
++    </p>
++    <p>
++      <span data-l10n-id="altitude_label">Altitude</span> : <span id="altitude"></span>
++    </p>
++    <form name="forsec">
++      <input type="button" value="Pause" onClick="clearTimeout(compte)">
++      <input type="button" value="Rego" onClick="chrono()">
++      <input type="button" value="STOP" onClick="stopWatch(compte)"/>
++      <input type="button" value="GoBackHome" onClick="flyto('gobackhome');"/>
++    </form>
++  </div>
++
++  <div id="detail_parcours" class="container page none">
++    <p>Nom : <span class="parcours_details" id="parcours_details_name"></span></p>
++    <p>Date : <span class="parcours_details" id="parcours_details_date"></span></p>
++    <p>Heure départ : <span class="parcours_details" id="parcours_details_start_time"></span></p>
++    <p>Heure arrivée : <span class="parcours_details" id="parcours_details_finish_time"></span></p>
++    <p>Durée : <span class="parcours_details" id="parcours_details_duration"></span></p>
++    <p>Distance : <span class="parcours_details" id="parcours_details_distance"></span></p>
++    <p>Profil associé : <span  class="parcours_details" id="parcours_details_profil"></span></p>
++    <p>Tag associé : <span class="parcours_details"  id="parcours_details_tag"></span></p>
++    <input type="button" value="Carte" onclick="flyto('container');" />
++  </div>
++
++  <div id="container"  class="container page none">
++    <div id="osm_map" style="width:300px; height:340px; margin: 0 auto;"></div>
++    <input type="button" value="retour" onclick="flyto('detail_parcours');" />
++  </div>
++
++  <div id="gobackhome" class="container page none">
++    <svg id="fleche" xmlns="http://www.w3.org/2000/svg">
++      <g id="group_arrow" transform="">
++        <path d="M150 0 L100 100  L150 65 L200 100 Z" />
++      </g>
++    </svg>
++    <input type="button" value="retour" onclick="flyto('trace');" />
++  </div>
++
++  <div id="parcours_list" class="container page none">
++    <h1>Liste des parcours</h1>
++    <table id="table_parcours" cellspacing="0" cellpadding="0">
++      <thead>
++        <td>Parcours</td>
++        <td>Sport</td>
++        <td>Tag</td>
++      </thead>
++      <tbody>
++      </tbody>
++    </table>
++  </div>
++
++  <div id="parameters_list" class="container page none">
++    <h1>Profils</h1>
++    <div class="page-grey container">
++      <div class="page-block">
++        <h2 data-role="profil_add" class="nav-item">Ajouter un profil</h2>
+       </div>
+-   </div>
+-   <div id="home" class="container">
+-      <div id="hp">
+-         <div id="element"></div>
+-            <div id="titre">
+-               <h1>RunRunRun</h1>
+-               <h2>open web-app for FirefoxOS</h2>
+-            </div>
+-         </div>
++    </div>
++    <div class="page-grey container">
++      <div class="page-block">
++        <h2 data-role="profil_list" class="nav-item">Liste des profils</h2>
+       </div>
+-      <div id="p1" class="container page none">
+-         <h1 data-l10n-id="add_parcours">Ajouter un parcours</h1>
+-         <div class="page-grey container">
+-            <div class="page-block">
+-               <label for="choice-sports">Sports</label>
+-               <select id="choice-sports" name="choice-sports"></select>
+-            </div>
+-         </div>
+-         <div class="page-grey container">
+-            <div class="page-block">
+-               <label for="choice-tags">Tags</label>
+-               <select id="choice-tags" name="choice-tags"></select>
+-            </div>
+-         </div>
+-         <input type="button" data-l10n-id="button_start_course" value="Commencer" onclick="start_parcours();" />
+-         <input type="button" value="GoBackHome" onClick="flyto('gobackhome');"/>
++    </div>
++
++    <h1>Tags</h1>
++    <div class="page-grey container">
++      <div class="page-block">
++        <h2 data-role="tag_add" class="nav-item">Ajouter un tag</h2>
+       </div>
+-      <div id="trace" class="container page none">
+-         <p id="time">
+-            <span id="time-min"></span>:<span id="time-sec"></span>
+-         </p>
+-         <p>
+-            <span data-l10n-id="distance_label">Distance</span> : <span id="distance"></span>
+-         </p>
+-         <p>
+-            <span data-l10n-id="accuracy_label">Précision</span> : <span id="accuracy"></span>
+-         </p>
+-         <p>
+-            <span data-l10n-id="speed_label">Vitesse </span>: <span id="speed"></span>
+-         </p>
+-         <p>
+-            <span data-l10n-id="altitude_label">Altitude</span> : <span id="altitude"></span>
+-         </p>
+-         <form name="forsec">
+-            <input type="button" value="Pause" onClick="clearTimeout(compte)">
+-            <input type="button" value="Rego" onClick="chrono()">
+-            <input type="button" value="STOP" onClick="stopWatch(compte)"/>
+-            <input type="button" value="GoBackHome" onClick="flyto('gobackhome');"/>
+-         </form>
++    </div>
++    <div class="page-grey container">
++      <div class="page-block">
++        <h2 data-role="tag_list" class="nav-item">Liste des tags</h2>
+       </div>
+-      <div id="detail_parcours" class="container page none">
+-         <p>Nom : <span class="parcours_details" id="parcours_details_name"></span></p>
+-         <p>Date : <span class="parcours_details" id="parcours_details_date"></span></p>
+-         <p>Heure départ : <span class="parcours_details" id="parcours_details_start_time"></span></p>
+-         <p>Heure arrivée : <span class="parcours_details" id="parcours_details_finish_time"></span></p>
+-         <p>Durée : <span class="parcours_details" id="parcours_details_duration"></span></p>
+-         <p>Distance : <span class="parcours_details" id="parcours_details_distance"></span></p>
+-         <p>Profil associé : <span  class="parcours_details" id="parcours_details_profil"></span></p>
+-         <p>Tag associé : <span class="parcours_details"  id="parcours_details_tag"></span></p>
+-         <input type="button" value="Carte" onclick="flyto('container');" />
++    </div>
++  </div>
++
++  <div id="tag_add" class="container page none">
++    <h1>Ajouter un tag</h1>
++    <div class="page-grey container">
++      <div class="page-block">
++        <label for="tag_name">Nom</label>
++        <input type="text" name="tag_name" id="tag_name_add" />
+       </div>
+-      <div id="container"  class="container page none">
+-        <div id="osm_map" style="width:300px; height:340px; margin: 0 auto;"></div>
++    </div>
++    <input type="button" value="Enregistrer" onclick="insert_tag();" />
++  </div>
+ 
+-         <input type="button" value="retour" onclick="flyto('detail_parcours');" />
++  <div id="tag_list"class="container page none">
++    <h1>Liste des tags</h1>
++    <div class="page-grey container">
++      <div class="page-block">
++        <label for="tag_edit_list">Tags</label>
++        <select name="tag_edit_list" id="tag_edit_list"></select>
+       </div>
+-      <div id="gobackhome"  class="container page none">
+-          <svg id="fleche" xmlns="http://www.w3.org/2000/svg"  >
+-            <g id="group_arrow" transform="">
+-              <path d="M150 0 L100 100  L150 65    L200 100 Z" />
+-            </g>
+-          </svg>
+-          <input type="button" value="retour" onclick="flyto('trace');" />
++    </div>
++    <input type="button" value="Editer" onclick="load_tag()" />
++    <input type="button" value="Supprimer" onclick="del_tag()" />
++  </div>
++
++  <div id="tag_edit" class="container page none">
++    <h1>Editer un tag</h1>
++    <div class="page-grey container">
++      <div class="page-block">
++        <label for="tag_name">Nom</label>
++        <input type="text" name="tag_name" id="tag_name_edit" />
+       </div>
+-      <div id="parcours_list" class="container page none">
+-         <h1>Liste des parcours</h1>
+-         <table id="table_parcours" cellspacing="0" cellpadding="0">
+-            <thead>
+-               <td>Parcours</td>
+-               <td>Sport</td>
+-               <td>Tag</td>
+-            </thead>
+-            <tbody>
+-            </tbody>
+-         </table>
++    </div>
++    <input type="hidden" id="tag_id_edit" name="tag_id_edit" />
++    <input type="hidden" id="tag_index_edit" name="tag_index_edit" />
++    <input type="button" value="Editer" onclick="edit_tag();" />
++  </div>
++
++  <div id="profil_add" class="container page none">
++    <h1>Ajouter un profil</h1>
++    <div class="page-grey container">
++      <div class="page-block">
++        <label for="profil_name">Nom</label>
++        <input type="text" name="profil_name" id="profil_name_add" />
+       </div>
+-            
+-      <div id="parameters_list" class="container page none">
+-         <h1>Profils</h1>
+-         <div class="page-grey container">
+-            <div class="page-block">
+-               <h2 data-role="profil_add" class="nav-item">Ajouter un profil</h2>
+-            </div>
+-         </div>
+-         <div class="page-grey container">
+-            <div class="page-block">
+-               <h2 data-role="profil_list" class="nav-item">Liste des profils</h2>
+-            </div>
+-         </div>
+-         
+-         <h1>Tags</h1>
+-         <div class="page-grey container">
+-            <div class="page-block">
+-               <h2 data-role="tag_add" class="nav-item">Ajouter un tag</h2>
+-            </div>
+-         </div>
+-         <div class="page-grey container">
+-            <div class="page-block">
+-               <h2 data-role="tag_list" class="nav-item">Liste des tags</h2>
+-            </div>
+-         </div>
+-      </div>       
+-      <div id="tag_add" class="container page none">
+-         <h1>Ajouter un tag</h1>
+-         <div class="page-grey container">
+-            <div class="page-block">
+-               <label for="tag_name">Nom</label>
+-               <input type="text" name="tag_name" id="tag_name_add" />
+-            </div>
+-         </div>  
+-         <input type="button" value="Enregistrer" onclick="insert_tag();" />
+-      </div>    
+-      <div id="tag_list"class="container page none">
+-         <h1>Liste des tags</h1>
+-         <div class="page-grey container">
+-            <div class="page-block">
+-               <label for="tag_edit_list">Tags</label>
+-               <select name="tag_edit_list" id="tag_edit_list"></select>
+-            </div>
+-         </div>
+-         <input type="button" value="Editer" onclick="load_tag()" />
+-         <input type="button" value="Supprimer" onclick="del_tag()" />
++    </div>
++    <div class="page-grey container">
++      <div class="page-block">
++        <label for="profil_weight">Poids</label>
++        <input type="text" name="profil_weight" id="profil_weight_add" />
+       </div>
+-      <div id="tag_edit" class="container page none">
+-         <h1>Editer un tag</h1>
+-         <div class="page-grey container">
+-            <div class="page-block">
+-               <label for="tag_name">Nom</label>
+-               <input type="text" name="tag_name" id="tag_name_edit" />
+-            </div>
+-         </div>
+-         <input type="hidden" id="tag_id_edit" name="tag_id_edit" />
+-          <input type="hidden" id="tag_index_edit" name="tag_index_edit" />
+-        
+-         <input type="button" value="Editer" onclick="edit_tag();" />
++    </div>
++    <div class="page-grey container">
++      <div class="page-block">
++        <label for="profil_sex_add">Sexe</label>
++        <select id="profil_sex_add" name="profil_sex_add">
++          <option value="M">Homme</option>
++          <option value="w">Femme</option>
++        </select>
+       </div>
+-      <div id="profil_add" class="container page none">
+-         <h1>Ajouter un profil</h1>
+-         <div class="page-grey container">
+-            <div class="page-block">
+-               <label for="profil_name">Nom</label>
+-               <input type="text" name="profil_name" id="profil_name_add" />
+-            </div>
+-         </div>
+-         <div class="page-grey container">
+-            <div class="page-block">
+-               <label for="profil_weight">Poids</label>
+-               <input type="text" name="profil_weight" id="profil_weight_add" />
+-            </div>
+-         </div>
+-         <div class="page-grey container">
+-            <div class="page-block">
+-               <label for="profil_sex_add">Sexe</label>
+-               <select id="profil_sex_add" name="profil_sex_add"><option value="M">Homme</option><option value="w">Femme</option></select>
+-            </div>
+-         </div>
+-         
+-         <input type="button" value="Enregistrer" onclick="insert_profil();" />
++    </div>
++
++    <input type="button" value="Enregistrer" onclick="insert_profil();" />
++  </div>
++
++  <div id="profil_list"class="container page none">
++    <h1>Liste des profils</h1>
++    <div class="page-grey container">
++      <div class="page-block">
++        <label for="profil_edit_list">Profils</label>
++        <select name="profil_edit_list" id="profil_edit_list"></select>
+       </div>
+-      
+-      <div id="profil_list"class="container page none">
+-         <h1>Liste des profils</h1>
+-         <div class="page-grey container">
+-            <div class="page-block">
+-               <label for="profil_edit_list">Profils</label>
+-               <select name="profil_edit_list" id="profil_edit_list"></select>
+-            </div>
+-         </div>
+-         
+-         <input type="button" value="Editer" onclick="load_profil()" />
+-         <input type="button" value="Supprimer" onclick="del_profil()" />
++    </div>
++
++    <input type="button" value="Editer" onclick="load_profil()" />
++    <input type="button" value="Supprimer" onclick="del_profil()" />
++  </div>
++
++  <div id="profil_edit" class="container page none">
++    <h1>Editer un profil</h1>
++    <div class="page-grey container">
++      <div class="page-block">
++        <label for="profil_name">Nom</label>
++        <input type="text" name="profil_name" id="profil_name_edit"/>
+       </div>
+-      
+-      <div id="profil_edit" class="container page none">
+-         <h1>Editer un profil</h1>
+-         <div class="page-grey container">
+-            <div class="page-block">
+-               <label for="profil_name">Nom</label>
+-               <input type="text" name="profil_name" id="profil_name_edit"/>
+-            </div>
+-         </div>
+-         <div class="page-grey container">
+-            <div class="page-block">
+-               <label for="profil_weight">Poids</label>
+-               <input type="text" name="profil_weight" id="profil_weight_edit" />
+-            </div>
+-         </div>
+-         <div class="page-grey container">
+-            <div class="page-block">
+-               <label for="profil_sex_edit">Sexe</label>
+-               <select id="profil_sex_edit" name="profil_sex_edit">
+-                  <option value="M">Homme</option>
+-                  <option value="w">Femme</option>
+-               </select>
+-            </div>
+-         </div>
+-         
+-         <input type="hidden" id="profil_id_edit" name="profil_id_edit" />
+-         <input type="hidden" id="profil_index_edit" name="profil_index_edit" />
+-         <input type="hidden" id="profil_active_edit" name="profil_active_edit" />
+-         <input type="button" value="Editer" onclick="edit_profil();" />
++    </div>
++    <div class="page-grey container">
++      <div class="page-block">
++        <label for="profil_weight">Poids</label>
++        <input type="text" name="profil_weight" id="profil_weight_edit" />
+       </div>
+-            
+-      <div id="footer">
+-         <div class="container">
+-            <div id="nav-bar">
+-               <div class="nav-icon nav-item" data-role="p1">
+-                  <div id="picto-new" class="picto"></div>
+-               </div>
+-               <div id="nav-icon-mid" class="nav-icon nav-item" data-role="parcours_list">
+-                  <div id="picto-list" class="picto"></div>
+-               </div>
+-               <div class="nav-icon nav-item" data-role="parameters_list">
+-                  <div id="picto-config" class="picto"></div>
+-               </div>
+-            </div>
+-         </div>
++    </div>
++    <div class="page-grey container">
++      <div class="page-block">
++        <label for="profil_sex_edit">Sexe</label>
++        <select id="profil_sex_edit" name="profil_sex_edit">
++          <option value="M">Homme</option>
++          <option value="w">Femme</option>
++        </select>
++      </div>
++    </div>
++
++    <input type="hidden" id="profil_id_edit" name="profil_id_edit" />
++    <input type="hidden" id="profil_index_edit" name="profil_index_edit" />
++    <input type="hidden" id="profil_active_edit" name="profil_active_edit" />
++    <input type="button" value="Editer" onclick="edit_profil();" />
++  </div>
++
++  <div id="footer">
++    <div class="container">
++      <div id="nav-bar">
++        <div class="nav-icon nav-item" data-role="p1">
++          <div id="picto-new" class="picto"></div>
++        </div>
++        <div id="nav-icon-mid" class="nav-icon nav-item" data-role="parcours_list">
++          <div id="picto-list" class="picto"></div>
++        </div>
++        <div class="nav-icon nav-item" data-role="parameters_list">
++          <div id="picto-config" class="picto"></div>
++        </div>
+       </div>
+-   
+-   </body>
+-   
++    </div>
++  </div>
++</body>
+ </html>
+diff --git a/test.html b/test.html
+index 2447ec8..f6ec322 100644
+--- a/test.html
++++ b/test.html
+@@ -1,58 +1,54 @@
++<!DOCTYPE html>
+ <html>
+ <head>
+-	<!-- Source: http://wiki.openstreetmap.org/wiki/Openlayers_Track_example -->
+-	<title>Simple OSM GPX Track</title>
+-	<!-- bring in the OpenLayers javascript library
+-		 (here we bring it from the remote site, but you could
+-		 easily serve up this javascript yourself) -->
+-	<script src="http://www.openlayers.org/api/OpenLayers.js"></script>
+-	<!-- bring in the OpenStreetMap OpenLayers layers.
+-		 Using this hosted file will make sure we are kept up
+-		 to date with any necessary changes -->
+-	<script src="http://www.openstreetmap.org/openlayers/OpenStreetMap.js"></script>
+- 
+-	<script type="text/javascript">
+-		// Start position for the map (hardcoded here for simplicity,
+-		// but maybe you want to get this from the URL params)
++  <!-- Source: http://wiki.openstreetmap.org/wiki/Openlayers_Track_example -->
++  <title>Simple OSM GPX Track</title>
++  <!-- bring in the OpenLayers javascript library
++     (here we bring it from the remote site, but you could
++     easily serve up this javascript yourself) -->
++  <script src="http://www.openlayers.org/api/OpenLayers.js"></script>
++  <!-- bring in the OpenStreetMap OpenLayers layers.
++     Using this hosted file will make sure we are kept up
++     to date with any necessary changes -->
++  <script type="text/javascript" src="http://www.openstreetmap.org/openlayers/OpenStreetMap.js"></script>
++  <script type="text/javascript">
++    // Start position for the map (hardcoded here for simplicity,
++    // but maybe you want to get this from the URL params)
+ 
+-function load(){
+-		var lat=47.496792
+-		var lon=7.571726
+-		var zoom=13
+- 
+-		var map; //complex object of type OpenLayers.Map
+- 
+-		
+-			map = new OpenLayers.Map ("map", {
+-				controls:[
+-					new OpenLayers.Control.Navigation(),
+-					new OpenLayers.Control.PanZoomBar(),
+-					new OpenLayers.Control.LayerSwitcher(),
+-					new OpenLayers.Control.Attribution()],
+-				maxExtent: new OpenLayers.Bounds(-20037508.34,-20037508.34,20037508.34,20037508.34),
+-				maxResolution: 156543.0399,
+-				numZoomLevels: 19,
+-				units: 'm',
+-				projection: new OpenLayers.Projection("EPSG:900913"),
+-				displayProjection: new OpenLayers.Projection("EPSG:4326")
+-			} );
+-		
+- 
+-			var markers = new OpenLayers.Layer.Markers( "Markers" );
+-map.addLayer(markers);
++    function load() {
++      var lat=47.496792
++      var lon=7.571726
++      var zoom=13
+ 
+-var size = new OpenLayers.Size(21,25);
+-var offset = new OpenLayers.Pixel(-(size.w/2), -size.h);
+-var icon = new OpenLayers.Icon('http://www.openlayers.org/dev/img/marker.png', size, offset);
+-markers.addMarker(new OpenLayers.Marker(new OpenLayers.LonLat(0,0),icon));
+-markers.addMarker(new OpenLayers.Marker(new OpenLayers.LonLat(0,0),icon.clone()));
+-}
+-	</script>
+- 
++      var map; //complex object of type OpenLayers.Map
++      map = new OpenLayers.Map ("map", {
++        controls:[
++          new OpenLayers.Control.Navigation(),
++          new OpenLayers.Control.PanZoomBar(),
++          new OpenLayers.Control.LayerSwitcher(),
++          new OpenLayers.Control.Attribution()],
++        maxExtent: new OpenLayers.Bounds(-20037508.34,-20037508.34,20037508.34,20037508.34),
++        maxResolution: 156543.0399,
++        numZoomLevels: 19,
++        units: 'm',
++        projection: new OpenLayers.Projection("EPSG:900913"),
++        displayProjection: new OpenLayers.Projection("EPSG:4326")
++      });
++
++      var markers = new OpenLayers.Layer.Markers( "Markers" );
++      map.addLayer(markers);
++
++      var size = new OpenLayers.Size(21,25);
++      var offset = new OpenLayers.Pixel(-(size.w/2), -size.h);
++      var icon = new OpenLayers.Icon('http://www.openlayers.org/dev/img/marker.png', size, offset);
++      markers.addMarker(new OpenLayers.Marker(new OpenLayers.LonLat(0,0),icon));
++      markers.addMarker(new OpenLayers.Marker(new OpenLayers.LonLat(0,0),icon.clone()));
++    }
++  </script>
+ </head>
+ <!-- body.onload is called once the page is loaded (call the 'init' function) -->
+ <body onload="load();">
+-	<!-- define a DIV into which the map will appear. Make it take up the whole window -->
+-	<div style="width:90%; height:90%" id="map"></div>
++  <!-- define a DIV into which the map will appear. Make it take up the whole window -->
++  <div style="width:90%; height:90%" id="map"></div>
+ </body>
+-</html>
+\ No newline at end of file
++</html>
