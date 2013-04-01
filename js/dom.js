@@ -8,6 +8,8 @@ function update_display(geoloc) {
   document.getElementById('accuracy').innerHTML = geoloc.accuracy;
 }
 
+
+
 function warn_accuracy_not_ok(accuracy) {
   //If accuray is not good it alerts user by a warning
   document.getElementById('distance').innerHTML = 'Acquisition GPS en cours...';

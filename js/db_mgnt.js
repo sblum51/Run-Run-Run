@@ -898,12 +898,13 @@ var input_json = function(pid) {
   }
 };
 
-function start_parcours() {
+var start_parcours=function() {
   chrono();
+  console.log("start parcours la");
   var sport = document.getElementById('choice-sports').value;
   var tag = document.getElementById('choice-tags').value;
   add_parcours(sport, tag, current_profil, start_gps);
-}
+};
 
 function get_parcours_and_begin(id, obj) {
   // We will do a get on the parcours object, take the startTime, make minus

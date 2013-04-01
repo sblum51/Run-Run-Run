@@ -46,41 +46,10 @@ function draw_trace(tab) {
     new OpenLayers.Projection('EPSG:900913') // to
   ), null, style)]);
   map.addLayers([vector]);
-  center_map(parseFloat(tab[1].lat), parseFloat(tab[0].lon), 15);
 
-  //map.setCenter(new OpenLayers.Geometry.Point(LonLat1.lon, LonLat1.lat), 7);
+  if(typeof(tab[1])!=="undefined"){
+    center_map(parseFloat(tab[1].lat), parseFloat(tab[0].lon), 15);
+  }
 
-  /*var lineLayer = new OpenLayers.Layer.Vector("Line Layer");
-  var vectorLine
-  map.addControl(new OpenLayers.Control.DrawFeature(lineLayer, OpenLayers.Handler.Path));
-  var points = new Array(new OpenLayers.LonLat(2.191429, 48.744191)
-            .transform(
-              new OpenLayers.Projection("EPSG:4326"), // transform from WGS 1984
-              map.getProjectionObject() // to Spherical Mercator Projection
-            ),new OpenLayers.LonLat(2.355194,48.74487)
-            .transform(
-              new OpenLayers.Projection("EPSG:4326"), // transform from WGS 1984
-              map.getProjectionObject() // to Spherical Mercator Projection
-            )
-  );
-
-  var line = new OpenLayers.Geometry.LineString(points);
-  center_map(48.74487,2.355194,16);
-  var style = {
-  strokeColor: '#0000ff',
-    strokeOpacity: 0.5,
-    strokeWidth: 5
-  };
-
-  var lineFeature = new OpenLayers.Feature.Vector(line, null, style);
-  lineLayer.addFeatures([lineFeature]);
-  map.addLayer(lineLayer);
-
-    var LonLat=new OpenLayers.LonLat(2.191429, 48.744191) .transform(
-              new OpenLayers.Projection("EPSG:4326"), // transform from WGS 1984
-              map.getProjectionObject() // to Spherical Mercator Projection
-            );
-
-    map.setCenter(LonLat,16); */
 }
 

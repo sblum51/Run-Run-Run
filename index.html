@@ -6,11 +6,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
   <link rel="stylesheet" type="text/css" href="css/style.css" />
   <link rel="ressource" type="application/l10n" href="data.ini" />
-
-  <!-- ToRemoveLater -->
-  <meta http-equiv="Cache-control" content="no-store" />
-  <meta http-equiv="Cache-control" content="no-cache" />
-
+  
+  <script type="text/javascript" src="js/gobackhome.js"></script>
+  <script type="text/javascript" src="js/runrunrun.js"></script>
   <script type="text/javascript" src="OpenLayers.js"></script>
   <script type="text/javascript" src="js/osm.js"></script>
   <script type="text/javascript" src="js/time.js"></script>
@@ -19,52 +17,7 @@
   <script type="text/javascript" src="js/geolocation.js"></script>
   <script type="text/javascript" src="js/gmaps.js"></script>
   <script type="text/javascript" src="js/l10n.js"></script>
-  <script type="text/javascript">
-    var id_visible = "home";
-    window.onload = function() {
-      init_osm();
-      runrunrun.indexedDB.open();
-      document.getElementById("logo").addEventListener("click", changeVisibility, false);
-      document.getElementById("top-titre").addEventListener("click", changeVisibility, false);
-      var elements = document.getElementsByClassName("nav-item");
-
-      for(var i in elements) {
-        if (elements[i] instanceof Element) {
-          elements[i].addEventListener("click", changeVisibility, false);
-        }
-      };
-
-      var flyto = function (id){
-        caller('fltyo');
-        document.getElementById(id).style.display = 'inline';
-        document.getElementById(id_visible).style.display = 'none';
-        id_visible = id;
-      }
-
-      function changeVisibility() {
-        caller();
-        var id = this.getAttribute("data-role");
-
-        if (id == 'home') {
-          var elements = document.getElementsByClassName('page');
-          for (var i = 0, length = elements.length; i < length; i++) {
-            elements[i].style.display = 'none';
-          }
-          document.getElementById("home").style.display = 'inline';
-          id_visible = "home";
-        } else if (!isVisible(id)) {
-          document.getElementById(id).style.display = 'inline';
-          document.getElementById(id_visible).style.display = 'none';
-          id_visible = id;
-        }
-      }
-
-      function isVisible(id) {
-        caller();
-        return (document.getElementById(id).style.display == "inline")
-      }
-    }
-  </script>
+ 
   <style type="text/css">
     #container { position: relative; width: 990px; margin: auto; }
     #container #map{ width: 500px; height: 500px; margin: auto; }
@@ -102,8 +55,8 @@
         <select id="choice-tags" name="choice-tags"></select>
       </div>
     </div>
-    <input type="button" data-l10n-id="button_start_course" value="Commencer" onclick="start_parcours();" />
-    <input type="button" value="GoBackHome" onClick="flyto('gobackhome');"/>
+    <input type="button" class="button_action" data-action="start_parcours()" data-l10n-id="button_start_course" value="Commencer"  />
+    <input type="button" class="button_fly" data-role="gobackhome" value="GoBackHome" />
   </div>
 
   <div id="trace" class="container page none">
@@ -123,10 +76,10 @@
       <span data-l10n-id="altitude_label">Altitude</span> : <span id="altitude"></span>
     </p>
     <form name="forsec">
-      <input type="button" value="Pause" onClick="clearTimeout(compte)">
-      <input type="button" value="Rego" onClick="chrono()">
-      <input type="button" value="STOP" onClick="stopWatch(compte)"/>
-      <input type="button" value="GoBackHome" onClick="flyto('gobackhome');"/>
+      <input type="button" value="Pause" class="button_action" data-action="clearTimeout(compte)">
+      <input type="button" value="Rego" class="button_action" data-action="chrono()" >
+      <input type="button" value="STOP" class="button_action" data-action="stopWatch(compte)" />
+      <input type="button" value="GoBackHome" class="button_fly" data-role="gobackhome"/>
     </form>
   </div>
 
@@ -139,12 +92,12 @@
     <p>Distance : <span class="parcours_details" id="parcours_details_distance"></span></p>
     <p>Profil associé : <span  class="parcours_details" id="parcours_details_profil"></span></p>
     <p>Tag associé : <span class="parcours_details"  id="parcours_details_tag"></span></p>
-    <input type="button" value="Carte" onclick="flyto('container');" />
+    <input type="button" value="Carte" class="button_fly" data-role="container" />
   </div>
 
   <div id="container"  class="container page none">
     <div id="osm_map" style="width:300px; height:340px; margin: 0 auto;"></div>
-    <input type="button" value="retour" onclick="flyto('detail_parcours');" />
+    <input type="button"  value="retour" class="button_fly" data-role="detail_parcours"  />
   </div>
 
   <div id="gobackhome" class="container page none">
@@ -153,7 +106,8 @@
         <path d="M150 0 L100 100  L150 65 L200 100 Z" />
       </g>
     </svg>
-    <input type="button" value="retour" onclick="flyto('trace');" />
+    <div id="zone_angle"></div>
+    <input type="button" value="retour" class="button_fly" data-role="trace"  />
   </div>
 
   <div id="parcours_list" class="container page none">
@@ -203,7 +157,7 @@
         <input type="text" name="tag_name" id="tag_name_add" />
       </div>
     </div>
-    <input type="button" value="Enregistrer" onclick="insert_tag();" />
+    <input type="button" value="Enregistrer" class="button_action" data-action="insert_tag()"  />
   </div>
 
   <div id="tag_list"class="container page none">
@@ -214,8 +168,8 @@
         <select name="tag_edit_list" id="tag_edit_list"></select>
       </div>
     </div>
-    <input type="button" value="Editer" onclick="load_tag()" />
-    <input type="button" value="Supprimer" onclick="del_tag()" />
+    <input type="button" value="Editer" class="button_action" data-action="load_tag()" />
+    <input type="button" value="Supprimer" class="button_action" data-action="del_tag()" />
   </div>
 
   <div id="tag_edit" class="container page none">
@@ -228,7 +182,7 @@
     </div>
     <input type="hidden" id="tag_id_edit" name="tag_id_edit" />
     <input type="hidden" id="tag_index_edit" name="tag_index_edit" />
-    <input type="button" value="Editer" onclick="edit_tag();" />
+    <input type="button" value="Editer"  class="button_action" data-action="edit_tag()" />
   </div>
 
   <div id="profil_add" class="container page none">
@@ -255,7 +209,7 @@
       </div>
     </div>
 
-    <input type="button" value="Enregistrer" onclick="insert_profil();" />
+    <input type="button" value="Enregistrer" class="button_action" data-action="insert_profil()" />
   </div>
 
   <div id="profil_list"class="container page none">
@@ -267,8 +221,8 @@
       </div>
     </div>
 
-    <input type="button" value="Editer" onclick="load_profil()" />
-    <input type="button" value="Supprimer" onclick="del_profil()" />
+    <input type="button" value="Editer" class="button_action" data-action="load_profil()" />
+    <input type="button" value="Supprimer"  class="button_action" data-action="del_profil()" />
   </div>
 
   <div id="profil_edit" class="container page none">
@@ -298,7 +252,7 @@
     <input type="hidden" id="profil_id_edit" name="profil_id_edit" />
     <input type="hidden" id="profil_index_edit" name="profil_index_edit" />
     <input type="hidden" id="profil_active_edit" name="profil_active_edit" />
-    <input type="button" value="Editer" onclick="edit_profil();" />
+    <input type="button" value="Editer" class="button_action" data-action="edit_profil()"/>
   </div>
 
   <div id="footer">

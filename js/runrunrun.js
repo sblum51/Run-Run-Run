@@ -1,26 +1,54 @@
 var id_visible = "home";
     window.onload = function() {
-    init_osm();
+
+      init_osm();
       runrunrun.indexedDB.open();
       document.getElementById("logo").addEventListener("click", changeVisibility, false);
       document.getElementById("top-titre").addEventListener("click", changeVisibility, false);
-      var elements = document.getElementsByClassName("nav-item");
+      
 
-      for(var i in elements) {
-        if(elements[i] instanceof Element){
-          elements[i].addEventListener("click", changeVisibility, false); 
+      var elements_nav_item = document.getElementsByClassName("nav-item");
+      var elements_btn_fly = document.getElementsByClassName("button_fly");
+      var elements_btn_action = document.getElementsByClassName("button_action");
+
+      for(var i in elements_nav_item) {
+        if(elements_nav_item[i] instanceof Element){
+          elements_nav_item[i].addEventListener("click", changeVisibility, false); 
         }
       };
-      
+
+      for(var j in elements_btn_fly) {
+        if(elements_btn_fly[j] instanceof Element){
+          elements_btn_fly[j].addEventListener("click", changeVisibility, false); 
+        }
+      };
+
+      for(var k in elements_btn_action) {
+        if(elements_btn_action[k] instanceof Element){
+          var action = elements_btn_action[k].getAttribute("data-action");
+          console.log("action "+action);
+          elements_btn_action[k].addEventListener("click", function (){ executeAction(this);}, false); 
+        }
+      };
+
+
       var flyto=function (id){
-        caller('fltyo');
+        console(id);
         document.getElementById(id).style.display = 'inline';
         document.getElementById(id_visible).style.display = 'none';
         id_visible = id;
       }
-         
+       
+      var executeAction=function(obj){
+        var action=obj.getAttribute("data-action");
+       
+        eval(action); 
+        
+      }
+     
+
       function changeVisibility() {
-        caller();
+        
         var id = this.getAttribute("data-role");
 
         if(id == 'home') {
@@ -50,4 +78,7 @@ var id_visible = "home";
         else
            return false;
       }
+
+goto(48.728214,2.268666, 48.727867,2.269181);
+
     }
