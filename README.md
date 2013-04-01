@@ -8,6 +8,7 @@ The application displays the position of the user on a map in real time.</p>
 
 <p>At the beginning of each course, the user has to select the mode. Several methods are available, such as biking, running, or hiking. Each mode has its specificities to calculate calories burned.</p>
 
+<p>This app was test on Firefox, Firefox for Android, FirefoxOS Simulator with Firefox module. I can't test it with B2G Client Desktop (due to issues during the installation) and devphone (I haven't).</p>
 <p>Several settings are available for example, the interval between geolocations user. This setting will save the phone battery.</p>
 
 <p> RunRunRun began for school project called "Recherche & Developpement", we were three in our dev team :
