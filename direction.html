@@ -8,7 +8,7 @@
     var to_long=2.269197;
     var degre=5;
     if (navigator.geolocation){
-      var watchId = navigator.geolocation.watchPosition(successCallback, errorCallback, {enableHighAccuracy:true});
+      //var watchId = navigator.geolocation.watchPosition(successCallback, errorCallback, {enableHighAccuracy:true});
     }
 
     function get_distance_m(lat1, lon1, lat2, lon2) {
@@ -77,7 +77,7 @@
           document.getElementById("angle").innerHTML=angle;
           document.getElementById("alpha").innerHTML=e.alpha;
           document.getElementById("rot").innerHTML=angle-e.alpha;
-          rotate((360-e.alpha)+(360-angle));
+          //rotate((360-e.alpha)+(360-angle));
         }, false);
       }
     });
@@ -92,7 +92,10 @@
       </g>
     </svg>
   </div>
-
+<input type="button" value="90" onClick="rotate(90)" />
+<input type="button" value="180" onClick="rotate(180)" />
+<input type="button" value="270" onClick="rotate(270)" />
+<input type="button" value="0" onClick="rotate(0)" />
   <input type="button" onclick="random_rotate(5);"/>
 
   <p>Distance: <div id="dist"></div>m</p>

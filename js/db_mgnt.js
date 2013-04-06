@@ -150,6 +150,9 @@ function update_parcours_list() {
   }
 }
 
+
+
+
 function fill_edit_profil_form(profil, index) {
   //Fill the form for profile edition
   document.getElementById('profil_name_edit').value = profil.value.name;
@@ -687,12 +690,19 @@ function delete_profil(id, callback) {
   request.onerror = function(e) {};
 }
 
-function delete_parcours(id) {
-  var id = parseInt(id);
+function delete_parcours() {
+  var pid=document.getElementById('pid_detail_parcours').value;
+  var id = parseInt(pid);
+  console.log(pid);
   store_parcours = db.transaction(STORENAME_PARCOURS, type).objectStore(STORENAME_PARCOURS);
+  delete_records_of_parcours(id);
   var request = store_parcours.delete(id);
 
-  request.onsuccess = function(e) {};
+  request.onsuccess = function(e) {
+    console.log("success");
+    reset_parcours_list();
+    flyto('parcours_list');
+  };
   request.onerror = function(e) {};
 }
 
@@ -721,6 +731,30 @@ function delete_table_record(id_table) {
   for (var i = 1; i < rowCount; i++) {
     table.deleteRow(i);
   }
+}
+
+function delete_records_of_parcours(pid){
+
+  var transaction = db.transaction(STORENAME_RECORDS, 'readwrite');
+  var objectStore = transaction.objectStore(STORENAME_RECORDS);
+  var index = objectStore.index('parcours_id');
+  var singleKeyRange = IDBKeyRange.only(parseInt(pid));
+  var cursorRequest = index.openCursor(singleKeyRange);
+
+  cursorRequest.onsuccess = function(event) {
+    var cursor = event.target.result;
+    if (cursor) {
+        
+        cursor.delete();
+
+      var retour = cursor.continue();
+    }
+  }
+  cursorRequest.oncomplete = function(e) { console.log("complete"); };
+  cursorRequest.onerror = function(e) { console.log("error");}
+
+
+
 }
 
 function render_record(data) {

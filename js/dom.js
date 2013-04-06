@@ -73,9 +73,10 @@ function fill_parcours_detail(item,which, id_parcours) {
   assoc['parcours_profil'] = [{id: 'parcours_details_profil', func: 'get_profil_name(id)'}];
   assoc['parcours_tag'] = [{id: 'parcours_details_tag', func: 'get_tag_name(id)'}];
   assoc['parcours_duration'] = [{id: 'parcours_details_duration', type: 'hms'}];
+  
 
   work_on_parcours(id_parcours);
-
+  document.getElementById('pid_detail_parcours').value=id_parcours;
   for (x in item) {
     if (assoc[''+ which + '_'+ x + '']) {
       for (z in assoc[''+ which + '_'+ x + '']) {

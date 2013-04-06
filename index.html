@@ -56,7 +56,7 @@
       </div>
     </div>
     <input type="button" class="button_action" data-action="start_parcours()" data-l10n-id="button_start_course" value="Commencer"  />
-    <input type="button" class="button_fly" data-role="gobackhome" value="GoBackHome" />
+    <input type="button" class="button_fly" data-role="gobackhome" data-l10n-id="button_go_back_home" value="GoBackHome" />
   </div>
 
   <div id="trace" class="container page none">
@@ -93,6 +93,8 @@
     <p>Profil associé : <span  class="parcours_details" id="parcours_details_profil"></span></p>
     <p>Tag associé : <span class="parcours_details"  id="parcours_details_tag"></span></p>
     <input type="button" value="Carte" class="button_fly" data-role="container" />
+    <input type="hidden" value="" id="pid_detail_parcours" />
+    <input type="button" value="Supprimer" class="button_action" data-action="delete_parcours()" />
   </div>
 
   <div id="container"  class="container page none">
@@ -107,6 +109,9 @@
       </g>
     </svg>
     <div id="zone_angle"></div>
+    <div id="alpha"></div>
+    <div id="calcul"></div>
+    <div id="distance_gobackhome"></div>
     <input type="button" value="retour" class="button_fly" data-role="trace"  />
   </div>
 

@@ -2,6 +2,9 @@ var parcours_id = null;
 var cpt = 0;
 var watchId = null;
 var distance = 0;
+var lati_origin; //Current latitude used for the gobackhome function and the distance and degree between curent location et start point
+var longi_origin; //Current longitude used for the gobackhome function and the distance and degree between curent location et start point
+
 var start_gps = function(parcours) {
   cpt = 0;
   parcours_id = parcours;
@@ -21,6 +24,8 @@ function successCallback(position) {
     if (cpt == 1) {
       old_lati = position.coords.latitude;
       old_longi = position.coords.longitude;
+      lati_origin=position.coords.latitude;
+      longi_origin=position.coords.longitude;
     } else {
       if (old_lati != null || old_longi != null) {
         distance = parseFloat(distance) + parseFloat(CalcDistanceBetween(old_lati, old_longi, position.coords.latitude, position.coords.longitude));
@@ -28,7 +33,7 @@ function successCallback(position) {
         old_longi = position.coords.longitude;
       }
     }
-    if (position.coords.accuracy < 30) {
+    if (position.coords.accuracy < 50) {
       var obj = {};
       obj.latitude = position.coords.latitude;
       obj.longitude = position.coords.longitude;
@@ -41,7 +46,8 @@ function successCallback(position) {
       obj.parcours_id = parcours_id;
       obj.distance = distance.toFixed(3);
       update_display(obj);
-      console.log(obj);
+      console.log(obj.latitude+" "+obj.longitude+" "+lati_origin+" "+longi_origin);
+      goto(obj.latitude,obj.longitude,lati_origin,longi_origin);
       add_record(obj);
     } else {
       console.log('par iciiii');
