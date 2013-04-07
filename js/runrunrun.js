@@ -6,6 +6,7 @@ var id_visible = "home";
       
       
       runrunrun.indexedDB.open();
+      switchButtonsStartToFix();
       document.getElementById("logo").addEventListener("click", changeVisibility, false);
       document.getElementById("top-titre").addEventListener("click", changeVisibility, false);
       
@@ -13,7 +14,7 @@ var id_visible = "home";
       var elements_nav_item = document.getElementsByClassName("nav-item");
       var elements_btn_fly = document.getElementsByClassName("button_fly");
       var elements_btn_action = document.getElementsByClassName("button_action");
-      console.log(elements_btn_action);
+      
       for(var i in elements_nav_item) {
         if(elements_nav_item[i] instanceof Element){
           elements_nav_item[i].addEventListener("click", changeVisibility, false); 
@@ -26,13 +27,10 @@ var id_visible = "home";
         }
       };
 
-      for(var m in elements_btn_action) { 
-        
-        if(elements_btn_action[m] instanceof Element ){
-          console.log(elements_btn_action[m]);
-          elements_btn_action[m].addEventListener("click", function (){ executeAction(this);}, false); 
-        }
-      };
+      for(var m=0; m<elements_btn_action.length;  m++){
+        elements_btn_action[m].addEventListener("click", function (){ executeAction(this);}, false); 
+      }
+     
 
       init_osm();
       var flyto=function (id){
@@ -47,7 +45,7 @@ var id_visible = "home";
         eval(action); 
         
       }
-     switchButtonsStartToFix();
+     
 
       function changeVisibility() {
         

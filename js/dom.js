@@ -44,13 +44,16 @@ var formatter = function(value,type) {
     var minutes = date.getMinutes();
     var seconds = date.getSeconds();
     return hours + ':'+ minutes + ':'+ seconds + '';
-  } else if (type = 'hms') {
+  } else if (type == 'hms') {
     //secondes
     var s = Math.floor(value / 1000) % 60;
     //minutes
     var m = Math.floor(value / 60000) % 60;
     //affichage
     return m + ':'+ s;
+  }
+  else if (type == 'dist') {
+    return value.toFixed(3);
   }
 };
 
@@ -93,6 +96,7 @@ function fill_parcours_profil(name) {
 
 function fill_parcours_detail(item,which, id_parcours) {
   //Fill datas of a course in the html array et formatte it.
+  console.log("Distance "+item.distance);
   var assoc = new Object();
   assoc['parcours_name'] = [{id: 'parcours_details_name'}];
   assoc['parcours_startTime'] = [{id: 'parcours_details_start_time', type: 'hour'},{id: 'parcours_details_date', type: 'date'}];
@@ -100,7 +104,7 @@ function fill_parcours_detail(item,which, id_parcours) {
   assoc['parcours_profil'] = [{id: 'parcours_details_profil', func: 'get_profil_name(id)'}];
   assoc['parcours_tag'] = [{id: 'parcours_details_tag', func: 'get_tag_name(id)'}];
   assoc['parcours_duration'] = [{id: 'parcours_details_duration', type: 'hms'}];
-  
+  assoc['parcours_distance']= [{id: 'parcours_details_distance', type: 'dist'}];
 
   work_on_parcours(id_parcours);
   document.getElementById('pid_detail_parcours').value=id_parcours;

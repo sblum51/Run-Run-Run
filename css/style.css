@@ -53,7 +53,15 @@ body {
   height: 100%;
   margin: auto;
   padding-bottom: 3em;
+  margin-bottom: 50px;
 }
+
+#table_parcours tr{
+
+
+
+}
+
 
 #table_parcours thead {
   background-color: #FAFAFA;
@@ -65,7 +73,11 @@ body {
 }
 
 #table_parcours td {
-  padding: 5px;
+  padding: 10px;
+  border-bottom: 1px solid grey;
+  text-align: left;
+  color: #0088CC;
+  font-weight: normal;
 }
 
 

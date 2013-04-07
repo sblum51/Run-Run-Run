@@ -94,15 +94,15 @@ var add_parcours_to_list = function(key,item, item2, tag) {
   var table = document.getElementById('table_parcours');
   var tr = document.createElement('tr');
   var td1 = document.createElement('td');
-  var td2 = document.createElement('td');
-  var td3 = document.createElement('td');
+  //var td2 = document.createElement('td');
+  //var td3 = document.createElement('td');
 
   td1.appendChild(document.createTextNode(item.name));
-  td2.appendChild(document.createTextNode(item2.name));
-  td3.appendChild(document.createTextNode(tag));
+  //td2.appendChild(document.createTextNode(item2.name));
+  //td3.appendChild(document.createTextNode(tag));
   tr.appendChild(td1);
-  tr.appendChild(td2);
-  tr.appendChild(td3);
+  //tr.appendChild(td2);
+  //tr.appendChild(td3);
   table.appendChild(tr);
 
   //Add a listener, when someone clicks it opens the detail page of this course
@@ -122,6 +122,7 @@ function detail_parcours(id) {
     var result = e.target.result;
     if (!!result == false) { }else {
       //Datas are sent to an other function, It will fill the DOM.
+
       fill_parcours_detail(result.value, 'parcours', result.key);
     }
   }
@@ -524,6 +525,7 @@ function see_ongmaps(id) {
 }
 
 function get_parcours(id, callback) {
+  console.log(callback);
   // Use ID and retrieve a parcours from the IDB and send it to callback
   var id = parseInt(id);
   store_parcours = db.transaction(STORENAME_PARCOURS, type).objectStore(STORENAME_PARCOURS);
@@ -537,6 +539,7 @@ function get_parcours(id, callback) {
     } else {
       if (typeof(callback) != 'undefined') {
         callback(result);
+        console.log(result);
       }
     }
   }
@@ -852,9 +855,7 @@ var work_on_parcours = function(id) {
       coord.lat = cursor.value.latitude;
       coord.lon = cursor.value.longitude;
       array_coord.push(coord);
-      //var p = new google.maps.LatLng(cursor.value.latitude, cursor.value.longitude);
-      //path_polyline.push(p);
-
+      
       if (cursor.value.speed >= vitesse_max) {
         vitesse_max = cursor.value.speed;
       }
@@ -868,12 +869,9 @@ var work_on_parcours = function(id) {
       var retour = cursor.continue();
     } else {
       var duree_ms = max_ts - min_ts;
-      //polyline(path_polyline); Gmaps is disabled
-      //center_map(old_lati,old_longi); Gmap is disabled
-
-      //center_map(old_lati, old_longi, 16);
+      
       draw_trace(array_coord);
-      console.log(old_lati + ' '+ old_longi);
+      
     }
   };
   cursorRequest.oncomplete = function(e) { };
@@ -967,6 +965,7 @@ function get_parcours_and_begin(id, obj) {
       newobj.LongStartPoint = obj.LongStartPoint;
       //Update of the object parcours
       update_parcours(id, newobj);
+
     }
   };
   cursorRequest.onerror = function(e) {};
@@ -997,6 +996,7 @@ function get_parcours_and_finish(id, obj) {
       //We store duration and stopTime
       newobj.duration = duration;
       newobj.stopTime = obj.StopTime;
+      newobj.distance = obj.distance;
       //Update of the object parcour
       update_parcours(id, newobj);
     }

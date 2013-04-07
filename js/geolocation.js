@@ -49,7 +49,7 @@ function successCallback(position) {
       obj.parcours_id = parcours_id;
       obj.distance = distance.toFixed(3);
       update_display(obj);
-      console.log(obj.latitude+" "+obj.longitude+" "+lati_origin+" "+longi_origin);
+      
       goto(obj.latitude,obj.longitude,lati_origin,longi_origin);
       add_record(obj);
     } else {
@@ -102,9 +102,9 @@ function stopWatch(compte) {
   clearTimeout(compte);
   var newobj = {};
   newobj.StopTime = new Date().getTime();
-
+  newobj.distance=distance ;
   get_parcours_and_finish(parcours_id, newobj);
-
+  
   navigator.geolocation.clearWatch(watchId);
   reset_parcours_list();
   flyto('parcours_list');
