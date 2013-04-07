@@ -1,7 +1,10 @@
+'use strict';
 var id_visible = "home";
+
     window.onload = function() {
 
-      init_osm();
+      
+      
       runrunrun.indexedDB.open();
       document.getElementById("logo").addEventListener("click", changeVisibility, false);
       document.getElementById("top-titre").addEventListener("click", changeVisibility, false);
@@ -10,7 +13,7 @@ var id_visible = "home";
       var elements_nav_item = document.getElementsByClassName("nav-item");
       var elements_btn_fly = document.getElementsByClassName("button_fly");
       var elements_btn_action = document.getElementsByClassName("button_action");
-
+      console.log(elements_btn_action);
       for(var i in elements_nav_item) {
         if(elements_nav_item[i] instanceof Element){
           elements_nav_item[i].addEventListener("click", changeVisibility, false); 
@@ -23,17 +26,17 @@ var id_visible = "home";
         }
       };
 
-      for(var k in elements_btn_action) {
-        if(elements_btn_action[k] instanceof Element){
-          var action = elements_btn_action[k].getAttribute("data-action");
-          console.log("action "+action);
-          elements_btn_action[k].addEventListener("click", function (){ executeAction(this);}, false); 
+      for(var m in elements_btn_action) { 
+        
+        if(elements_btn_action[m] instanceof Element ){
+          console.log(elements_btn_action[m]);
+          elements_btn_action[m].addEventListener("click", function (){ executeAction(this);}, false); 
         }
       };
 
-
+      init_osm();
       var flyto=function (id){
-        console(id);
+        console.log(id);
         document.getElementById(id).style.display = 'inline';
         document.getElementById(id_visible).style.display = 'none';
         id_visible = id;
@@ -41,11 +44,10 @@ var id_visible = "home";
        
       var executeAction=function(obj){
         var action=obj.getAttribute("data-action");
-       
         eval(action); 
         
       }
-     
+     switchButtonsStartToFix();
 
       function changeVisibility() {
         
@@ -72,7 +74,7 @@ var id_visible = "home";
     
       
       function isVisible(id) {
-        caller();
+        
         if(document.getElementById(id).style.display == "inline")
            return true;
         else

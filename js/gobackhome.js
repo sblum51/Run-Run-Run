@@ -56,13 +56,13 @@ function goto(from_lat, from_lon, to_lat, to_lon) {
   console.log(angle2);
   final_angle=((toDeg(angle2))+360)%360;
   //rotate(final_angle);
- document.getElementById('distance_gobackhome').innerHTML=d;
+  document.getElementById('distance_gobackhome').innerHTML=d;
   document.getElementById('zone_angle').innerHTML=final_angle;
   if (window.DeviceOrientationEvent) {
 
   window.addEventListener("deviceorientation", 
                           function (e) { 
-                            console.log("MAJ");
+                          alpha=e.alpha;
                             if(final_angle!=="undefined"){
                               rotation=final_angle.toFixed(0)-alpha.toFixed(0);
                               rotate(rotation);

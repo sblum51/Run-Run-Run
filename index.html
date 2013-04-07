@@ -55,8 +55,9 @@
         <select id="choice-tags" name="choice-tags"></select>
       </div>
     </div>
-    <input type="button" class="button_action" data-action="start_parcours()" data-l10n-id="button_start_course" value="Commencer"  />
-    <input type="button" class="button_fly" data-role="gobackhome" data-l10n-id="button_go_back_home" value="GoBackHome" />
+    <input type="button" id="button_fix_gps" class="button_action" data-action="fix_gps()" value="Fixer GPS"  />
+    <input type="button" id="button_fix_gps_progressing" class="button_action" data-action=""  value="Fixation..."  />
+    <input type="button" id="button_start_course" class="button_action" data-action="start_parcours()" data-l10n-id="button_start_course" value="Commencer"  />
   </div>
 
   <div id="trace" class="container page none">
@@ -94,7 +95,7 @@
     <p>Tag associé : <span class="parcours_details"  id="parcours_details_tag"></span></p>
     <input type="button" value="Carte" class="button_fly" data-role="container" />
     <input type="hidden" value="" id="pid_detail_parcours" />
-    <input type="button" value="Supprimer" class="button_action" data-action="delete_parcours()" />
+    <input type="button" id="toto" value="Supprimer" class="button_action" data-action="delete_parcours()" />
   </div>
 
   <div id="container"  class="container page none">

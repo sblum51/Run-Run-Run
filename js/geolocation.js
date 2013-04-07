@@ -1,9 +1,11 @@
 var parcours_id = null;
 var cpt = 0;
 var watchId = null;
+var watchIdFix = null;
 var distance = 0;
 var lati_origin; //Current latitude used for the gobackhome function and the distance and degree between curent location et start point
 var longi_origin; //Current longitude used for the gobackhome function and the distance and degree between curent location et start point
+var cpt_fix=0;
 
 var start_gps = function(parcours) {
   cpt = 0;
@@ -12,6 +14,7 @@ var start_gps = function(parcours) {
 };
 
 function successCallback(position) {
+
   if (cpt == 0) {
     var newobj = {};
     newobj.LatStartPoint = position.coords.latitude;
@@ -50,7 +53,6 @@ function successCallback(position) {
       goto(obj.latitude,obj.longitude,lati_origin,longi_origin);
       add_record(obj);
     } else {
-      console.log('par iciiii');
       warn_accuracy_not_ok(position.coords.accuracy);
     }
   }
@@ -69,6 +71,31 @@ function errorCallback(error) {
       console.log("Le service n'a pas répondu à temps");
       break;
   }
+}
+
+var fix_gps=function(){
+  console.log("fixing");
+  switchStatusFixButton();
+  watchIdFix = navigator.geolocation.watchPosition(successCallbackFixGPS, errorCallbackFixGPS, {enableHighAccuracy: true});
+
+}
+
+function successCallbackFixGPS(position){
+  console.log("Précision "+position.coords.accuracy);
+
+  if(cpt_fix!=0){
+    if(position.coords.accuracy<40){
+      switchButtonsFixToStart();
+      navigator.geolocation.clearWatch(watchIdFix);
+    }
+  }
+  cpt_fix++
+}
+
+function errorCallbackFixGPS(position){
+
+
+  
 }
 
 function stopWatch(compte) {

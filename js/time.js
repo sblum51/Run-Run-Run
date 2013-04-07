@@ -1,8 +1,9 @@
 var centi = 0;
 var secon = 0;
 var minu = 0;
-
+var compte;
 function chrono() {
+  console.log("chrono");
   centi++;
   if (centi > 9) {
     centi = 0;
@@ -23,7 +24,7 @@ function chrono() {
   else
     document.getElementById('time-min').innerHTML = minu;
 
-  compte = setTimeout('chrono()', 100);
+  compte = setInterval('chrono()', 1000);
 }
 
 function rasee() {

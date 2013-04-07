@@ -1,4 +1,5 @@
-// 'use strict';
+//'use strict';
+
 
 function update_display(geoloc) {
   //Function called by watchPosition for each ping.
@@ -8,7 +9,12 @@ function update_display(geoloc) {
   document.getElementById('accuracy').innerHTML = geoloc.accuracy;
 }
 
-
+function switchStatusFixButton(){
+  
+  document.getElementById('button_fix_gps').style.display = 'none';
+  document.getElementById('button_fix_gps_progressing').style.display = 'block';
+  
+}
 
 function warn_accuracy_not_ok(accuracy) {
   //If accuray is not good it alerts user by a warning
@@ -48,6 +54,27 @@ var formatter = function(value,type) {
   }
 };
 
+function blinkFixButton(){
+
+  var value_button=document.getElementById('button_fix_gps_progressing').value;
+  //document.getElementById('button_start_course').value='';
+}
+
+function switchButtonsFixToStart(){
+  //Function will display start button and hide gps button
+  document.getElementById('button_start_course').style.display = 'block';
+  document.getElementById('button_fix_gps').style.display = 'none';
+  document.getElementById('button_fix_gps_progressing').style.display = 'none';
+}
+
+
+var switchButtonsStartToFix = function(){
+  //Function will display fix button and hide start button
+  document.getElementById('button_fix_gps').style.display = 'block';
+  document.getElementById('button_start_course').style.display = 'none';
+  document.getElementById('button_fix_gps_progressing').style.display = 'none';
+}
+
 function reset_parcours_list() {
   //Re-init the list of courses
   document.getElementById('table_parcours').innerHTML = '';
@@ -77,9 +104,9 @@ function fill_parcours_detail(item,which, id_parcours) {
 
   work_on_parcours(id_parcours);
   document.getElementById('pid_detail_parcours').value=id_parcours;
-  for (x in item) {
+  for (var x in item) {
     if (assoc[''+ which + '_'+ x + '']) {
-      for (z in assoc[''+ which + '_'+ x + '']) {
+      for (var z in assoc[''+ which + '_'+ x + '']) {
         if (document.getElementById(assoc[''+ which + '_'+ x + ''][z].id)) {
           var vari = item[x];
           if (assoc[''+ which + '_'+ x + ''][z].type) {
