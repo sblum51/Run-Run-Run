@@ -43,8 +43,8 @@ function goto(from_lat, from_lon, to_lat, to_lon) {
   var lon1=from_lon;
   var lat2=to_lat;
   var lon2=to_lon;
-  var d = get_distance_m(lat1, lon1, lat2, lon2);
-  
+  //var d = get_distance_m(lat1, lon1, lat2, lon2);
+  var d=CalcDistanceBetween(lat1, lon1, lat2, lon2);
   if ((Math.sin(lon2-lon1)) < 0) {
   	var tc1 = Math.acos((Math.sin(lat2)-Math.sin(lat1)*Math.cos(d))/(Math.sin(d)*Math.cos(lat1))) 
   } else {
@@ -53,9 +53,9 @@ function goto(from_lat, from_lon, to_lat, to_lon) {
 
   // console.log(tc1);
   var angle2 = Math.atan2(Math.sin(lon2-lon1)*Math.cos(lat2), Math.cos(lat1)*Math.sin(lat2) - Math.sin(lat1)*Math.cos(lat2)*Math.cos(lon2-lon1));
-  console.log(angle2);
   final_angle=((toDeg(angle2))+360)%360;
   //rotate(final_angle);
+  console.log("Rotation "+final_angle+" Distance "+d);
   document.getElementById('distance_gobackhome').innerHTML=d;
   document.getElementById('zone_angle').innerHTML=final_angle;
   if (window.DeviceOrientationEvent) {

@@ -85,14 +85,62 @@
   </div>
 
   <div id="detail_parcours" class="container page none">
-    <p>Nom : <span class="parcours_details" id="parcours_details_name"></span></p>
-    <p>Date : <span class="parcours_details" id="parcours_details_date"></span></p>
-    <p>Heure départ : <span class="parcours_details" id="parcours_details_start_time"></span></p>
-    <p>Heure arrivée : <span class="parcours_details" id="parcours_details_finish_time"></span></p>
-    <p>Durée : <span class="parcours_details" id="parcours_details_duration"></span></p>
-    <p>Distance : <span class="parcours_details" id="parcours_details_distance"></span></p>
-    <p>Profil associé : <span  class="parcours_details" id="parcours_details_profil"></span></p>
-    <p>Tag associé : <span class="parcours_details"  id="parcours_details_tag"></span></p>
+    <table id="table_detail_parcours">
+      <tr>
+        <td>
+          <span id="">Nom</span>
+        </td>
+        <td>
+          <span class="parcours_details" id="parcours_details_name"></span>
+        <td/>
+      </tr>
+      <tr>
+        <td>
+          <span id="">Date</span>
+        </td>
+        <td>
+          <span class="parcours_details" id="parcours_details_date"></span>
+        <td/>
+      </tr>
+      <tr>
+        <td><span id="">Heure de départ</span></td>
+        <td>
+          <span class="parcours_details" id="parcours_details_start_time"></span>
+        <td/>
+      </tr>
+      <tr>
+        <td><span id="">Heure d'arrivée</span></td>
+        <td>
+          <span class="parcours_details" id="parcours_details_finish_time"></span>
+        <td/>
+      </tr>
+      <tr>
+        <td><span id="">Durée</span></td>
+        <td>
+          <span class="parcours_details" id="parcours_details_duration"></span>
+        <td/>
+      </tr>
+      <tr>
+        <td><span id="">Distance</span></td>
+        <td>
+          <span class="parcours_details" id="parcours_details_duration"></span>
+        <td/>
+      </tr>
+      <tr>
+        <td><span id="">Profil</span></td>
+        <td>
+          <span  class="parcours_details" id="parcours_details_profil"></span>
+        <td/>
+      </tr>
+      <tr>
+        <td>
+          <span id="">Tag</span>
+        </td>
+        <td>
+          <span class="parcours_details"  id="parcours_details_tag"></span>
+        <td/>
+      </tr>
+    </table>
     <input type="button" value="Carte" class="button_fly" data-role="container" />
     <input type="hidden" value="" id="pid_detail_parcours" />
     <input type="button" id="toto" value="Supprimer" class="button_action" data-action="delete_parcours()" />
