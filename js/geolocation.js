@@ -6,7 +6,8 @@ var distance = 0;
 var lati_origin; //Current latitude used for the gobackhome function and the distance and degree between curent location et start point
 var longi_origin; //Current longitude used for the gobackhome function and the distance and degree between curent location et start point
 var cpt_fix=0;
-
+var sec_timer=0;
+var duration_limit=10;
 var start_gps = function(parcours) {
   cpt = 0;
   parcours_id = parcours;
@@ -36,25 +37,23 @@ function successCallback(position) {
         old_longi = position.coords.longitude;
       }
     }
-    if (position.coords.accuracy < 50) {
-      var obj = {};
-      obj.latitude = position.coords.latitude;
-      obj.longitude = position.coords.longitude;
-      obj.timestamp = position.timestamp;
-      obj.altitude = position.coords.altitude;
-      obj.accuracy = position.coords.accuracy;
-      obj.altitudeAccuracy = position.coords.altitudeAccuracy;
-      obj.heading = position.coords.heading;
-      obj.speed = position.coords.speed;
-      obj.parcours_id = parcours_id;
-      obj.distance = distance.toFixed(3);
-      update_display(obj);
       
-      goto(obj.latitude,obj.longitude,lati_origin,longi_origin);
-      add_record(obj);
-    } else {
-      warn_accuracy_not_ok(position.coords.accuracy);
-    }
+    var obj = {};
+    obj.latitude = position.coords.latitude;
+    obj.longitude = position.coords.longitude;
+    obj.timestamp = position.timestamp;
+    obj.altitude = position.coords.altitude;
+    obj.accuracy = position.coords.accuracy;
+    obj.altitudeAccuracy = position.coords.altitudeAccuracy;
+    obj.heading = position.coords.heading;
+    obj.speed = position.coords.speed;
+    obj.parcours_id = parcours_id;
+    obj.distance = distance.toFixed(3);
+    update_display(obj);
+      
+    goto(obj.latitude,obj.longitude,lati_origin,longi_origin);
+    add_record(obj);
+    
   }
   cpt++;
 }
@@ -73,16 +72,31 @@ function errorCallback(error) {
   }
 }
 
+function timerGpsFixation(){
+//Timer of 10sec before alert user.
+  duration_limit--;
+  if(duration_limit==0){
+    if(confirm('La géolocation semble anormalement longue souhaitez-vous démarrer avec la précision actuelle ? ("annuler" pour la fixation des satellites')){
+      navigator.geolocation.clearWatch(watchIdFix);
+      switchButtonsFixToStart();      
+    }else{
+        duration_limit=10;
+    }
+  }
+  setTimeout('timerGpsFixation()', 1000);
+}
+
 var fix_gps=function(){
   console.log("fixing");
-  switchStatusFixButton();
+  switchStatusFixButton(); 
+  timerGpsFixation();
   watchIdFix = navigator.geolocation.watchPosition(successCallbackFixGPS, errorCallbackFixGPS, {enableHighAccuracy: true});
 
 }
 
 function successCallbackFixGPS(position){
   console.log("Précision "+position.coords.accuracy);
-
+  
   if(cpt_fix!=0){
     if(position.coords.accuracy<40){
       switchButtonsFixToStart();
