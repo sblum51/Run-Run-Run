@@ -8,6 +8,7 @@
   <link rel="ressource" type="application/l10n" href="data.ini" />
   
   <script type="text/javascript" src="js/gobackhome.js"></script>
+  <script type="text/javascript" src="js/click_data.js"></script>
   <script type="text/javascript" src="js/runrunrun.js"></script>
   <script type="text/javascript" src="js/osm.js"></script>
   <script type="text/javascript" src="js/time.js"></script>
@@ -56,8 +57,8 @@
         <select id="choice-tags" name="choice-tags"></select>
       </div>
     </div>
-    <input type="button" id="button_fix_gps" class="button_action" data-action="fix_gps()" value="Fixer GPS"  />
-    <input type="button" id="button_fix_gps_progressing" class="button_action" data-action=""  value="Fixation..."  />
+    <input type="button" id="button_fix_gps" class="button_action"  value="Fixer GPS"  />
+    <input type="button" id="button_fix_gps_progressing" class="button_action"  value="Fixation..."  />
     <input type="button" id="button_start_course" class="button_action" data-action="start_parcours()" data-l10n-id="button_start_course" value="Commencer"  />
   </div>
 
@@ -78,9 +79,9 @@
       <span data-l10n-id="altitude_label">Altitude</span> : <span id="altitude"></span>
     </p>
     <form name="forsec">
-      <input type="button" value="Pause" class="button_action" data-action="clearTimeout(compte)">
-      <input type="button" value="Rego" class="button_action" data-action="chrono()" >
-      <input type="button" value="STOP" class="button_action" data-action="stopWatch(compte)" />
+      <input type="button" value="Pause" id="button_pause" class="button_action" >
+      <input type="button" value="Rego" id="button_rego" class="button_action" >
+      <input type="button" value="STOP" id="button_stop" class="button_action" data-action="" />
       <input type="button" value="GoBackHome" class="button_fly" data-role="gobackhome"/>
     </form>
   </div>
@@ -144,7 +145,7 @@
     </table>
     <input type="button" value="Carte" class="button_fly" data-role="container" />
     <input type="hidden" value="" id="pid_detail_parcours" />
-    <input type="button" id="toto" value="Supprimer" class="button_action" data-action="delete_parcours()" />
+    <input type="button" id="button_delete_course" value="Supprimer" class="button_action"  />
   </div>
 
   <div id="container"  class="container page none">
@@ -207,7 +208,7 @@
         <input type="text" name="tag_name" id="tag_name_add" />
       </div>
     </div>
-    <input type="button" value="Enregistrer" class="button_action" data-action="insert_tag()"  />
+    <input type="button" value="Enregistrer"  id="button_insert_tag" class="button_action"  />
   </div>
 
   <div id="tag_list"class="container page none">
@@ -218,8 +219,8 @@
         <select name="tag_edit_list" id="tag_edit_list"></select>
       </div>
     </div>
-    <input type="button" value="Editer" class="button_action" data-action="load_tag()" />
-    <input type="button" value="Supprimer" class="button_action" data-action="del_tag()" />
+    <input type="button" value="Editer" id="button_load_tag" class="button_action"  />
+    <input type="button" value="Supprimer" id="button_del_tag"  class="button_action"  />
   </div>
 
   <div id="tag_edit" class="container page none">
@@ -232,7 +233,7 @@
     </div>
     <input type="hidden" id="tag_id_edit" name="tag_id_edit" />
     <input type="hidden" id="tag_index_edit" name="tag_index_edit" />
-    <input type="button" value="Editer"  class="button_action" data-action="edit_tag()" />
+    <input type="button" value="Editer"  id="button_edit_tag" class="button_action"  />
   </div>
 
   <div id="profil_add" class="container page none">
@@ -259,7 +260,7 @@
       </div>
     </div>
 
-    <input type="button" value="Enregistrer" class="button_action" data-action="insert_profil()" />
+    <input type="button" value="Enregistrer" id="button_insert_profil" class="button_action"  />
   </div>
 
   <div id="profil_list"class="container page none">
@@ -271,8 +272,8 @@
       </div>
     </div>
 
-    <input type="button" value="Editer" class="button_action" data-action="load_profil()" />
-    <input type="button" value="Supprimer"  class="button_action" data-action="del_profil()" />
+    <input type="button" value="Editer" id="button_load_profil" class="button_action"  />
+    <input type="button" value="Supprimer"  id="button_del_profil" class="button_action" />
   </div>
 
   <div id="profil_edit" class="container page none">
@@ -302,7 +303,7 @@
     <input type="hidden" id="profil_id_edit" name="profil_id_edit" />
     <input type="hidden" id="profil_index_edit" name="profil_index_edit" />
     <input type="hidden" id="profil_active_edit" name="profil_active_edit" />
-    <input type="button" value="Editer" class="button_action" data-action="edit_profil()"/>
+    <input type="button" id="button_edit_profil" value="Editer" class="button_action"/>
   </div>
 
   <div id="footer">

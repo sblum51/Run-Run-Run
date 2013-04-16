@@ -340,6 +340,18 @@ function add_profil(profil) {
   req.onerror = function() {};
 }
 
+function update_course(id,dist){
+
+  //Get the parcours and data
+
+  //Add the distance in
+
+  //Update the object.
+
+}
+
+
+
 function add_sport(sport) {
   // Receive an object "sport" and insert it in IDB
   var transaction = db.transaction('sports', 'readwrite');
@@ -673,8 +685,8 @@ function supprimer_parcours() {
 
 function delete_tag(id, callback) {
   var id = parseInt(id);
-  store_tag = db.transaction(STORENAME_TAGS, type).objectStore(STORENAME_TAGS);
-  var request = store_tag.delete(id);
+  store_tags = db.transaction(STORENAME_TAGS, type).objectStore(STORENAME_TAGS);
+  var request = store_tags.delete(id);
 
   request.onsuccess = function(e) {
     callback;
@@ -684,8 +696,8 @@ function delete_tag(id, callback) {
 
 function delete_profil(id, callback) {
   var id = parseInt(id);
-  store_profil = db.transaction(STORENAME_PROFILS, type).objectStore(STORENAME_PROFILS);
-  var request = store_profil.delete(id);
+  store_profils = db.transaction(STORENAME_PROFILS, type).objectStore(STORENAME_PROFILS);
+  var request = store_profils.delete(id);
 
   request.onsuccess = function(e) {
     callback;

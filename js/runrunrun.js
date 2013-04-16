@@ -1,25 +1,38 @@
 'use strict';
 var id_visible = "home";
 window.addEventListener("load", function(){ 
-
+  var func;
+  var elements_btn_action;
   runrunrun.indexedDB.open();
   switchButtonsStartToFix();
   init_osm();
 
+  var executeAction=function(obj){
+    var action=obj.getAttribute("data-action");
+    
+    action;
+  }
   
-
   var elements = document.querySelectorAll("#logo, #top-titre, .nav-item, .button_fly");
 
   for (var i = 0; i < elements.length; i++){
         elements[i].addEventListener("click", changeVisibility);
   } 
 
-  
-  var elements_btn_action = document.getElementsByClassName("button_action");
-
-  for(var m=0; m<elements_btn_action.length;  m++){
-    elements_btn_action[m].addEventListener("click", function (){ executeAction(this);}, false); 
-  }
+  document.getElementById('button_fix_gps').addEventListener("click", function(){ fix_gps(); } , false);
+  document.getElementById('button_start_course').addEventListener("click", function(){ start_parcours(); } , false);
+  document.getElementById('button_pause').addEventListener("click", function(){ clearTimeout(compte); } , false);
+  document.getElementById('button_rego').addEventListener("click", function(){ chrono(); } , false);
+  document.getElementById('button_stop').addEventListener("click", function(){ stopWatch(compte); } , false);
+  document.getElementById('button_delete_course').addEventListener("click", function(){  delete_parcours();} , false);
+  document.getElementById('button_insert_tag').addEventListener("click", function(){  insert_tag();} , false);
+  document.getElementById('button_load_tag').addEventListener("click", function(){  load_tag();} , false);
+  document.getElementById('button_del_tag').addEventListener("click", function(){  del_tag();} , false);
+  document.getElementById('button_edit_tag').addEventListener("click", function(){  edit_tag();} , false);
+  document.getElementById('button_insert_profil').addEventListener("click", function(){  insert_profil();} , false);
+  document.getElementById('button_load_profil').addEventListener("click", function(){  load_profil();} , false);
+  document.getElementById('button_del_profil').addEventListener("click", function(){  del_profil();} , false);
+  document.getElementById('button_edit_profil').addEventListener("click", function(){  edit_profil();} , false);
 
   var flyto=function (id){
     document.getElementById(id).style.display = 'inline';
@@ -27,10 +40,9 @@ window.addEventListener("load", function(){
     id_visible = id;
   }
 
-  var executeAction=function(obj){
-    var action=obj.getAttribute("data-action");
-    eval(action); 
-  }
+  
+
+
 
   function changeVisibility() {
     var id = this.getAttribute("data-role");

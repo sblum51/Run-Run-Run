@@ -8,6 +8,7 @@ var longi_origin; //Current longitude used for the gobackhome function and the d
 var cpt_fix=0;
 var sec_timer=0;
 var duration_limit=10;
+var compteur_update=0;
 var start_gps = function(parcours) {
   cpt = 0;
   parcours_id = parcours;
@@ -50,7 +51,11 @@ function successCallback(position) {
     obj.parcours_id = parcours_id;
     obj.distance = distance.toFixed(3);
     update_display(obj);
-      
+    
+    //Every 10 success we have to update IDB with the current (new) distance.
+    //update_course(parcours_id,obj.distance);
+
+
     goto(obj.latitude,obj.longitude,lati_origin,longi_origin);
     add_record(obj);
     
