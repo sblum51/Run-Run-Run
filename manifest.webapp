@@ -2,7 +2,7 @@
   "name": "RunRunRun",
   "description": "The runkeeper for FOS",
   "launch_path": "/index.html",
-  "type": "packaged",
+  "type": "privileged",
   "icons": {
     "60": "/img/icon-ffos.png"
   },
