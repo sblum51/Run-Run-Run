@@ -34,13 +34,13 @@ var object_store_records;
 var init_add_sport = false;
 var type = 'readwrite';
 var openreq;
-var indexedDB = window.mozIndexedDB || window.webkitIndexedDB || window.msIndexedDB;
 
 
 // Function called by window.onload. It opened the DB and creates stores
 runrunrun.indexedDB.open = function() {
   var request = indexedDB.open(DBNAME, DBVERSION);
   request.onupgradeneeded = function(e) {
+    console.log("onupgrade");
     db = e.target.result;
     object_store_sports = db.createObjectStore(STORENAME_SPORTS, { keyPath: undefined, autoIncrement: true });
     object_store_parcours = db.createObjectStore(STORENAME_PARCOURS, { keyPath: undefined, autoIncrement: true});
@@ -48,13 +48,13 @@ runrunrun.indexedDB.open = function() {
     object_store_tags = db.createObjectStore(STORENAME_TAGS, {keyPath: undefined, autoIncrement: true});
     object_store_profils = db.createObjectStore(STORENAME_PROFILS, {keyPath: undefined, autoIncrement: true});
 
-    init_add_sport = true; //Variable sets to true for insertion of sports in IDB,
+    init_add_sport = true; 
     object_store_records.createIndex('parcours_id', 'parcours_id', {unique: false });
     object_store_sports.createIndex('name', 'name', { unique: true });
   };
   request.onsuccess = function(e) {
     db = request.result;
-
+ console.log("onupgrade");
     //Insertion of sports in IDB,if the stores are new
     if (init_add_sport) {add_sports();}
 

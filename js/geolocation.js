@@ -79,6 +79,7 @@ function errorCallback(error) {
 
 function timerGpsFixation(){
 //Timer of 10sec before alert user.
+console.log("Fixation");
   duration_limit--;
   if(duration_limit==0){
     if(confirm('La géolocation semble anormalement longue souhaitez-vous démarrer avec la précision actuelle ? ("annuler" pour la fixation des satellites')){
@@ -88,7 +89,8 @@ function timerGpsFixation(){
         duration_limit=10;
     }
   }
-  setTimeout('timerGpsFixation()', 1000);
+ window.setTimeout(timerGpsFixation(), 1000);
+ //setInterval("timerGpsFixation()", 1000);
 }
 
 var fix_gps=function(){
@@ -113,7 +115,7 @@ function successCallbackFixGPS(position){
 
 function errorCallbackFixGPS(position){
 
-
+console.log("Erreur "+position);
   
 }
 
