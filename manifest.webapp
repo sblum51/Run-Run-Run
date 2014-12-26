@@ -4,9 +4,10 @@
   "launch_path": "/index.html",
   "type": "privileged",
   "icons": {
-    "60": "/img/icon-ffos.png"
+    "60": "/img/icon-ffos.png",
+    "128": "/img/icon-ffos.png"
   },
-  
+
   "permissions": {
     "geolocation":{}
    },
